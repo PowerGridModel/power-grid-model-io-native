@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 import platform
-from ctypes import CDLL, POINTER, c_char, c_char_p, c_double, c_size_t, c_void_p
+from ctypes import CDLL, c_double, c_size_t, c_void_p
 from inspect import signature
 from itertools import chain
 from pathlib import Path
