@@ -56,6 +56,7 @@ jobs:
       - name: Install and run mypy
         run: |
           pip install mypy
+          mkdir -p .mypy_cache
           mypy .
 
       - name: Install and run pylint
