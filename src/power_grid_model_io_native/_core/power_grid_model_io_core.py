@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
+"""PGM IO CORE module."""
+
 import platform
 from ctypes import CDLL, c_double, c_size_t, c_void_p
 from inspect import signature
@@ -10,8 +12,6 @@ from pathlib import Path
 from typing import Callable, Optional
 
 from power_grid_model.core.power_grid_core import IdxC, CStr, CharPtr
-
-"""PGM IO CORE module."""
 
 # functions with size_t return
 _FUNC_SIZE_T_RES = {"meta_class_size", "meta_class_alignment", "meta_attribute_offset"}
