@@ -15,6 +15,7 @@ dependencies:
   - nlohmann_json
   - msgpack-cxx
   - numpy
+  - power-grid-model
   # test deps
   - pytest
   - pytest-cov
