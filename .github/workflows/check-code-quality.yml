@@ -59,7 +59,7 @@ jobs:
       - name: Install and run pylint
         run: |
           pip install pylint .
-          pylint power_grid_model
+          pylint power_grid_model_io_native
           git restore README.md
 
       - name: Install and run clang-format
@@ -69,7 +69,6 @@ jobs:
 
       - name: If needed raise error
         run: |
-
           if [[ `git status --porcelain --untracked-files=no` ]]; then
             echo "Formatting not correct! See below the files which need to be reformatted!"
             git status --porcelain --untracked-files=no

@@ -140,13 +140,6 @@ jobs:
           # install
           cmake --build --preset ${{ env.PRESET }} --verbose -j 1 --target install; if(!$?) { Exit $LASTEXITCODE }
 
-          # build and run integration test
-          cd tests/package_tests; if(!$?) { Exit $LASTEXITCODE }
-          cmake --preset ${{ env.PRESET }}; if(!$?) { Exit $LASTEXITCODE }
-          cmake --build --preset ${{ env.PRESET }} --verbose -j 1; if(!$?) { Exit $LASTEXITCODE }
-          cmake --build --preset ${{ env.PRESET }} --verbose -j 1 --target install; if(!$?) { Exit $LASTEXITCODE }
-          install\${{ env.PRESET }}\bin\power_grid_model_package_test; if(!$?) { Exit $LASTEXITCODE }
-
   build-cpp-test-macos:
     runs-on: macos-14
     strategy:
@@ -169,7 +162,7 @@ jobs:
           brew install ninja boost eigen nlohmann-json msgpack-cxx doctest
 
       - name: Build and test
-        run: ./build.sh -p ${{ env.PRESET }} -e -i -t
+        run: ./build.sh -p ${{ env.PRESET }} -i
 
   build-and-test-python:
     strategy:

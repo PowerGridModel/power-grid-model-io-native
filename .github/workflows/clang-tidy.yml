@@ -19,10 +19,10 @@ on:
       target:
         type: choice
         description: The CMake target to run
-        default: power_grid_model_c
+        default: power_grid_model_io_native_c
         options:
           - all
-          - power_grid_model_c
+          - power_grid_model_io_native_c
         required: true
 
 concurrency:
@@ -63,7 +63,7 @@ jobs:
       - name: Set build target in case of push
         if: github.event_name != 'workflow_dispatch'
         run: |
-          echo "TARGET=power_grid_model_c" >> $GITHUB_ENV
+          echo "TARGET=power_grid_model_io_native_c" >> $GITHUB_ENV
 
       - name: Set build target in case of workflow dispatch
         if: github.event_name == 'workflow_dispatch'
