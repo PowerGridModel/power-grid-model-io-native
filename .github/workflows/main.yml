@@ -35,6 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
 
       - uses: actions/setup-python@v5
         with:
@@ -76,6 +78,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
       - name: Install packages
         run: |
           sudo apt-get update
@@ -106,6 +111,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
 
       - name: Activate conda
         uses: conda-incubator/setup-miniconda@v3  # install miniforge instead
@@ -151,6 +158,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
 
       - name: Set up XCode
         uses: maxim-lobanov/setup-xcode@v1
@@ -187,6 +196,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
 
       - uses: actions/download-artifact@v4
         with:
@@ -230,6 +241,8 @@ jobs:
         shell: bash -el {0}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
 
       - uses: conda-incubator/setup-miniconda@v3
         with:
