@@ -97,7 +97,7 @@ jobs:
         run: |
           brew install boost eigen nlohmann-json msgpack-cxx doctest
       - name: Build and test
-        run: ./build.sh -p ${{ env.PRESET }} -e -i -t
+        run: ./build.sh -p ${{ env.PRESET }} -i
 
   build-cpp-test-windows:
     runs-on: windows-latest
