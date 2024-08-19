@@ -11,6 +11,8 @@ from typing import Callable, Optional
 
 from power_grid_model.core.power_grid_core import IdxC, CStr, CharPtr
 
+"""PGM IO CORE module."""
+
 # functions with size_t return
 _FUNC_SIZE_T_RES = {"meta_class_size", "meta_class_alignment", "meta_attribute_offset"}
 _ARGS_TYPE_MAPPING = {bytes: CharPtr, str: CStr, int: IdxC, float: c_double}

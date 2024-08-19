@@ -2,4 +2,6 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
+"""Module importing PowerGridModelIoCore."""
+
 from power_grid_model_io_native._core.power_grid_model_io_core import PowerGridModelIoCore
