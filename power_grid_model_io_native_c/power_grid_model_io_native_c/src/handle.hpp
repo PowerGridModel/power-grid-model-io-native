@@ -21,8 +21,8 @@ struct PGM_IO_Handle {
 };
 
 template <class Exception = std::exception, class Functor>
-auto call_with_catch(PGM_IO_Handle* handle, Functor func, PGM_IO_Idx error_code,
-                     std::string_view extra_msg = {}) -> std::invoke_result_t<Functor> {
+auto call_with_catch(PGM_IO_Handle* handle, Functor func, PGM_IO_Idx error_code, std::string_view extra_msg = {})
+    -> std::invoke_result_t<Functor> {
     if (handle) {
         PGM_IO_clear_error(handle);
     }

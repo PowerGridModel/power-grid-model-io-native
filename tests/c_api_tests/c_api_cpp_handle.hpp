@@ -18,4 +18,4 @@ template <auto func> struct DeleterFunctor {
 // unique pointers
 using HandlePtr = std::unique_ptr<PGM_IO_Handle, DeleterFunctor<&PGM_IO_destroy_handle>>;
 
-} // namespace power_grid_model
+} // namespace power_grid_model_io_native
