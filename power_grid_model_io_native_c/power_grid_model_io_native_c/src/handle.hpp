@@ -10,7 +10,7 @@
 
 #include "power_grid_model_io_native_c/handle.h"
 
-#include <power_grid_model_io_native/common/common.hpp>
+#include "power_grid_model_io_native/common/common.hpp"
 
 #include <string_view>
 
