@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
-add_library(power_grid_model_io_native STATIC) #static
+add_library(power_grid_model_io_native STATIC)
 
 set_target_properties(power_grid_model_io_native PROPERTIES LINKER_LANGUAGE CXX)
 
