@@ -8,6 +8,7 @@
 #include "handle.hpp"
 
 #include "../../../../../../power-grid-model/power_grid_model_c/power_grid_model_c/src/forward_declarations.hpp"
+#include "../../../../../../power-grid-model/power_grid_model_c/power_grid_model_c/src/forward_declarations.hpp"
 #include "../../../../../../power-grid-model/power_grid_model_c/power_grid_model/include/power_grid_model/common/exception.hpp"
 
 #include <iostream>
