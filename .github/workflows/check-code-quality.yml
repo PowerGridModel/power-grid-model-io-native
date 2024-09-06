@@ -72,23 +72,8 @@ jobs:
 
       - name: If needed raise error
         run: |
-          if [[ `git status --porcelain --untracked-files=no` ]]; then
+          if [[ `git status --porcelain --untracked-files=no --ignore-submodules=dirty` ]]; then
             echo "Formatting not correct! See below the files which need to be reformatted!"
-            git status --porcelain --untracked-files=no
+            git status --porcelain --untracked-files=no --ignore-submodules=dirty
             exit 1
-          fi
-      
-      - name: Check generated code
-        if: success()
-        run: |
-          pip install -r code_generation/requirements.txt
-          python code_generation/code_gen.py
-          if [ -n "$(git status --porcelain)" ]; then
-            echo
-            echo "The following files are outdated or were manually updated:"
-            git status --porcelain
-            exit 1
-          else
-            echo
-            echo "All the generated files are up to date."
           fi

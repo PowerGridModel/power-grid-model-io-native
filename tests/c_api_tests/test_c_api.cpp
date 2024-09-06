@@ -15,8 +15,7 @@ TEST_CASE("C API") {
     // get handle
     HandlePtr const unique_handle{PGM_IO_create_handle()};
     REQUIRE(unique_handle != nullptr);
-    PGM_IO_Handle* hl = unique_handle.get();
-    CHECK(PGM_IO_error_code(hl) == PGM_IO_no_error);
+    CHECK(PGM_IO_error_code(unique_handle.get()) == PGM_IO_no_error);
 }
 
 } // namespace power_grid_model_io_native

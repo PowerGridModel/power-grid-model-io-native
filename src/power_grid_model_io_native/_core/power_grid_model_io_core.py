@@ -11,7 +11,7 @@ from itertools import chain
 from pathlib import Path
 from typing import Callable, Optional
 
-from power_grid_model.core.power_grid_core import IdxC, CStr, CharPtr
+from power_grid_model.core.power_grid_core import CharPtr, CStr, IdxC
 
 # functions with size_t return
 _FUNC_SIZE_T_RES = {"meta_class_size", "meta_class_alignment", "meta_attribute_offset"}
