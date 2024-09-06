@@ -58,6 +58,22 @@ PGM_ConstDataset* PgmVnfConverter::convert_input() {
     return fake_data;
 };
 
+void PgmVnfConverter::set_file_buffer(char* file_buffer) {
+   this->f_file_buffer = file_buffer;
+};
+
+void PgmVnfConverter::set_deserialized_data(PGM_WritableDataset* deserialized_data) {
+    this->deserialized_data = deserialized_data;
+};
+
+char* PgmVnfConverter::get_file_buffer() {
+    return this->f_file_buffer;
+};
+
+PGM_WritableDataset* PgmVnfConverter::get_deserialized_data() {
+    return this->deserialized_data;
+}
+
 void PgmVnfConverter::convert_node_input() {
     // Implementation
 };
