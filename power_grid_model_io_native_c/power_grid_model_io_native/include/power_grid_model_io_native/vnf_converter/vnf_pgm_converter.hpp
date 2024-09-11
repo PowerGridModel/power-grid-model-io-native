@@ -13,7 +13,7 @@
 
 class PgmVnfConverter {
   public:
-    PgmVnfConverter(char* buffer, power_grid_model::WritableDataset* data);
+    PgmVnfConverter(char* buffer = nullptr, power_grid_model::WritableDataset* data = nullptr);
 
     // Public member functions
     void parse_vnf_file();
@@ -45,7 +45,7 @@ class PgmVnfConverter {
     void convert_links_input();
 };
 
-inline PgmVnfConverter::PgmVnfConverter(char* buffer = nullptr, power_grid_model::WritableDataset* data = nullptr)
+inline PgmVnfConverter::PgmVnfConverter(char* buffer, power_grid_model::WritableDataset* data)
     : f_file_buffer(buffer), deserialized_data(data) {
     using namespace std::string_literals;
     using power_grid_model::ExperimentalFeature;
