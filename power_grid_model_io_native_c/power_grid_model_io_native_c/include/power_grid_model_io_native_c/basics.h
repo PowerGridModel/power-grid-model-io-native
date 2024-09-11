@@ -65,6 +65,18 @@ typedef int32_t PGM_IO_ID;
 // typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
 
 /**
+ * @brief Opaque struct for the VnfConverter class.
+ *
+ */
+typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
+
+/**
+ * @brief Opaque struct for the VnfConverter class.
+ *
+ */
+typedef struct PGM_IO_ConstDataset PGM_IO_ConstDataset;
+
+/**
  * @brief Opaque struct for the handle class.
  *
  * The handle class is used to store error and information.
