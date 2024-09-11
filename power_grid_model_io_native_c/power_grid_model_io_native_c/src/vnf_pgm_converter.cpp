@@ -14,13 +14,16 @@
 
 using power_grid_model::ConstDataset;
 
-PGM_IO_VnfConverter* PGM_VNF_create_converter(PGM_IO_Handle* handle, char* file_buffer) {
-    PGM_IO_VnfConverter* fake_conv = nullptr;
-    return fake_conv;
+PGM_IO_VnfConverter* PGM_VNF_create_converter(PGM_IO_Handle* /*handle*/, char* file_buffer) {
+    PgmVnfConverter* converter = new PgmVnfConverter(file_buffer);
+    parse_vnf_file_wrapper(converter);
+    return reinterpret_cast<PGM_IO_VnfConverter*>(converter);
 };
 
-PGM_IO_ConstDataset* PGM_VNF_get_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr,
-                                            PGM_IO_ConstDataset* dataset) {
-    PGM_IO_ConstDataset* fake_datas = nullptr;
-    return fake_datas;
+PGM_IO_ConstDataset* PGM_VNF_get_input_data(PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr,
+                                            PGM_IO_ConstDataset* /*dataset*/) {
+    // we have to reinterpret the C struct pointer back to pointer to converter
+    PgmVnfConverter* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
+    power_grid_model::ConstDataset* result = convert_input_wrapper(converter);
+    return reinterpret_cast<PGM_IO_ConstDataset*>(result);
 };

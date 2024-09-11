@@ -114,10 +114,7 @@ inline void PgmVnfConverter::convert_links_input(){
     // Implementation
 };
 
-inline PgmVnfConverter* parse_vnf_file_wrapper(PgmVnfConverter* obj) {
-    obj->parse_vnf_file();
-    return obj;
-};
+inline void parse_vnf_file_wrapper(PgmVnfConverter* obj) { obj->parse_vnf_file(); };
 
 inline power_grid_model::ConstDataset* convert_input_wrapper(PgmVnfConverter* obj) { return obj->convert_input(); };
 
