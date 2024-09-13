@@ -32,6 +32,9 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
           submodules: 'true'
+      - name: Initialize and update submodules
+        run: |
+          git submodule update --init --recursive
       - name: Install packages
         run: |
           sudo apt-get update
