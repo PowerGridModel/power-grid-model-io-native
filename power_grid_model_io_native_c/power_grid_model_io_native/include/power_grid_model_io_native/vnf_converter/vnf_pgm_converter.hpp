@@ -70,7 +70,7 @@ inline power_grid_model::ConstDataset* PgmVnfConverter::convert_input() {
 
     // then return the buffer
     // return pgm_input_data;
-    // for now
+    // for now.
     power_grid_model::ConstDataset* fake_data = nullptr;
     return fake_data;
 };
