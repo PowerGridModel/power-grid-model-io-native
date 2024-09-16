@@ -53,7 +53,10 @@ inline PgmVnfConverter::PgmVnfConverter(char* buffer, power_grid_model::Writable
                                                                                       .value = std::to_string(1)}};
 };
 
-inline void PgmVnfConverter::parse_vnf_file(){};
+inline void PgmVnfConverter::parse_vnf_file(){
+    // the function should use a deserializer type structure
+    // will be implemented later
+};
 
 inline power_grid_model::ConstDataset* PgmVnfConverter::convert_input() {
     convert_node_input();
@@ -74,8 +77,8 @@ inline power_grid_model::ConstDataset* PgmVnfConverter::convert_input() {
 
 inline void PgmVnfConverter::set_file_buffer(char* file_buffer) { this->f_file_buffer = file_buffer; };
 
-inline void PgmVnfConverter::set_deserialized_data(power_grid_model::WritableDataset* deserialized_data) {
-    this->deserialized_data = deserialized_data;
+inline void PgmVnfConverter::set_deserialized_data(power_grid_model::WritableDataset* data) {
+    this->deserialized_data = data;
 };
 
 inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; };

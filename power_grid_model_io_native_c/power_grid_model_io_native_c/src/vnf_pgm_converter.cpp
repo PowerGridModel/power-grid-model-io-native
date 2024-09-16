@@ -14,15 +14,20 @@
 
 using power_grid_model::ConstDataset;
 
-PGM_IO_VnfConverter* PGM_VNF_create_converter(PGM_IO_Handle* /*handle*/, char* file_buffer) {
+PGM_IO_VnfConverter* PGM_VNF_create_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer) {
     auto* converter = new PgmVnfConverter(file_buffer);
     parse_vnf_file_wrapper(converter);
     return reinterpret_cast<PGM_IO_VnfConverter*>(converter);
 };
 
-PGM_IO_ConstDataset* PGM_VNF_get_input_data(PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr,
+PGM_IO_ConstDataset* PGM_VNF_get_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr,
                                             PGM_IO_ConstDataset* /*dataset*/) {
     auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
     power_grid_model::ConstDataset* result = convert_input_wrapper(converter);
     return reinterpret_cast<PGM_IO_ConstDataset*>(result);
+};
+
+void delete_PGM_VNF_Converter(PGM_IO_VnfConverter* converter_ptr){
+    auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
+    delete converter;
 };
