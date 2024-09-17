@@ -19,4 +19,4 @@ PGM_IO_API PGM_IO_ConstDataset* PGM_VNF_get_input_data(PGM_IO_Handle* handle, PG
 }
 #endif
 
-#endif // VNF_PGM_CONVERTER_H
+#endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_H

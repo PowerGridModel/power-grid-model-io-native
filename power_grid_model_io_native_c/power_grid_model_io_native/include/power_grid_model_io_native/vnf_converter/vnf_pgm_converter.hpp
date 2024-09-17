@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #pragma once
-#ifndef POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_H
-#define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_H
+#ifndef POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
+#define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/common/exception.hpp>
@@ -124,4 +124,4 @@ inline power_grid_model::ConstDataset* convert_input_wrapper(PgmVnfConverter* ob
     return obj->convert_input(dataset);
 };
 
-#endif // VNF_PGM_CONVERTER_H
+#endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
