@@ -21,10 +21,11 @@ PGM_IO_VnfConverter* PGM_VNF_create_converter(const PGM_IO_Handle* /*handle*/, c
 };
 
 PGM_IO_ConstDataset* PGM_VNF_get_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr,
-                                            PGM_IO_ConstDataset* /*dataset*/) {
+                                            PGM_IO_ConstDataset* dataset) {
     auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
-    power_grid_model::ConstDataset* result = convert_input_wrapper(converter);
-    return reinterpret_cast<PGM_IO_ConstDataset*>(result);
+    auto* data = reinterpret_cast<ConstDataset*>(dataset);
+    convert_input_wrapper(converter, data);
+    return reinterpret_cast<PGM_IO_ConstDataset*>(data);
 };
 
 void delete_PGM_VNF_Converter(PGM_IO_VnfConverter* converter_ptr) {

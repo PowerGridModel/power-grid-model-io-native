@@ -17,7 +17,7 @@ class PgmVnfConverter {
 
     // Public member functions
     void parse_vnf_file();
-    power_grid_model::ConstDataset* convert_input();
+    power_grid_model::ConstDataset* convert_input(power_grid_model::ConstDataset* dataset);
 
   private:
     // Private attributes
@@ -58,7 +58,7 @@ inline void PgmVnfConverter::parse_vnf_file(){
     // will be implemented later
 };
 
-inline power_grid_model::ConstDataset* PgmVnfConverter::convert_input() {
+inline power_grid_model::ConstDataset* PgmVnfConverter::convert_input(power_grid_model::ConstDataset* dataset) {
     convert_node_input();
     convert_line_input();
     convert_sources_input();
@@ -119,6 +119,9 @@ inline void PgmVnfConverter::convert_links_input(){
 
 inline void parse_vnf_file_wrapper(PgmVnfConverter* obj) { obj->parse_vnf_file(); };
 
-inline power_grid_model::ConstDataset* convert_input_wrapper(PgmVnfConverter* obj) { return obj->convert_input(); };
+inline power_grid_model::ConstDataset* convert_input_wrapper(PgmVnfConverter* obj,
+                                                             power_grid_model::ConstDataset* dataset) {
+    return obj->convert_input(dataset);
+};
 
 #endif // VNF_PGM_CONVERTER_H
