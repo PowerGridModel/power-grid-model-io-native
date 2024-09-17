@@ -71,7 +71,7 @@ typedef int32_t PGM_IO_ID;
 typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
 
 /**
- * @brief Opaque struct for the VnfConverter class.
+ * @brief Opaque struct for the ConstDataset.
  *
  */
 typedef struct PGM_IO_ConstDataset PGM_IO_ConstDataset;
