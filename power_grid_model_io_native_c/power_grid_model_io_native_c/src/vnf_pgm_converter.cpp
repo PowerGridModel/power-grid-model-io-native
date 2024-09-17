@@ -28,7 +28,7 @@ PGM_IO_ConstDataset* PGM_VNF_get_input_data(const PGM_IO_Handle* /*handle*/, PGM
     return reinterpret_cast<PGM_IO_ConstDataset*>(data);
 };
 
-void delete_PGM_VNF_Converter(PGM_IO_VnfConverter* converter_ptr) {
+void PGM_VNF_delete_Converter(PGM_IO_VnfConverter* converter_ptr) {
     auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
     delete converter;
 };
