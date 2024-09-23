@@ -5,6 +5,7 @@
 # C API library
 add_library(power_grid_model_io_native_c SHARED
   "src/handle.cpp"
+  "src/vnf_pgm_converter.cpp"
 )
 
 target_include_directories(power_grid_model_io_native_c PUBLIC
@@ -15,6 +16,7 @@ target_include_directories(power_grid_model_io_native_c PUBLIC
 set(PGM_IO_NATIVE_PUBLIC_HEADERS
   "${CMAKE_CURRENT_SOURCE_DIR}/include/power_grid_model_io_native_c/basics.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/include/power_grid_model_io_native_c/handle.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/power_grid_model_io_native_c/vnf_pgm_converter.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/include/power_grid_model_io_native_c.h"
 )
 

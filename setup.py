@@ -159,7 +159,8 @@ def generate_build_ext(pkg_dir: Path, pkg_name: str):
     pgm_io_c = Path("power_grid_model_io_native_c")
     pgm = Path("power_grid_model")
     pgm_c = Path("power_grid_model_c")
-    pgm_pkg_dir = pkg_dir / str(pgm).replace("_", "-")
+    deps = Path("deps")
+    pgm_pkg_dir = pkg_dir / deps / str(pgm).replace("_", "-")
 
     # include-folders
     include_dirs = [

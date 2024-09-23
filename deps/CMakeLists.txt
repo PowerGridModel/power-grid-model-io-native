@@ -2,9 +2,5 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
-find_package(doctest REQUIRED)
+add_subdirectory("power-grid-model")
 
-include("${doctest_DIR}/doctest.cmake")
-
-add_subdirectory("c_api_tests")
-add_subdirectory("cpp_unit_tests")

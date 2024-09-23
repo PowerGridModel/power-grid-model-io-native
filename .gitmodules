@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
-[submodule "power-grid-model"]
-	path = power-grid-model
+[submodule "deps/power-grid-model"]
+	path = deps/power-grid-model
 	url = git@github.com:PowerGridModel/power-grid-model.git
+	branch = main

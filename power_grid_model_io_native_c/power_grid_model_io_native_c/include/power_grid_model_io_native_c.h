@@ -18,5 +18,6 @@
 
 #include "power_grid_model_io_native_c/basics.h"
 #include "power_grid_model_io_native_c/handle.h"
+#include "power_grid_model_io_native_c/vnf_pgm_converter.h"
 
 #endif // POWER_GRID_MODEL_IO_NATIVE_C_H
