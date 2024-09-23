@@ -23,7 +23,7 @@ PGM_IO_VnfConverter* PGM_VNF_create_converter(const PGM_IO_Handle* /*handle*/, c
 PGM_IO_ConstDataset const* PGM_VNF_get_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr,
                                                   PGM_IO_ConstDataset const* dataset) {
     auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
-    auto* data = reinterpret_cast<ConstDataset const*>(dataset);
+    auto const* data = reinterpret_cast<ConstDataset const*>(dataset);
     convert_input_wrapper(converter, data);
     return reinterpret_cast<PGM_IO_ConstDataset const*>(data);
 };
