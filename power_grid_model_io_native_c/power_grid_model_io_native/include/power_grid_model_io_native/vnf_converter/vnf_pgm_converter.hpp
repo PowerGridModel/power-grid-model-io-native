@@ -58,7 +58,7 @@ inline void PgmVnfConverter::parse_vnf_file(){
     // will be implemented later
 };
 
-inline void PgmVnfConverter::convert_input(power_grid_model::ConstDataset* dataset) {
+inline void PgmVnfConverter::convert_input(power_grid_model::ConstDataset* /*dataset*/) {
     convert_node_input();
     convert_line_input();
     convert_sources_input();
