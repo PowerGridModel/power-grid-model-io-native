@@ -15,7 +15,7 @@ extern "C" {
 /**
  * @brief Create the PGM_VNF_converter
  * @param handle
- * @param file_buffer A pointer to the file buffer instance which holds the .vnf data.
+ * @param file_buffer A pointer to the null-terminated C string.
  * @return The pointer to a PGM_VNF_converter instance. The instance must be freed by
  * PGM_VNF_delete_Converter
  */
@@ -28,8 +28,8 @@ PGM_IO_API PGM_IO_VnfConverter* PGM_VNF_create_converter(PGM_IO_Handle* handle, 
  * @param dataset A pointer to the const dataset supplied by the user.
  * @return The pointer to the const dataset instance supplied by the user which has been filled in.
  */
-PGM_IO_API PGM_IO_ConstDataset* PGM_VNF_get_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr,
-                                                       PGM_IO_ConstDataset* dataset);
+PGM_IO_API PGM_IO_ConstDataset const* PGM_VNF_get_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr,
+                                                             PGM_IO_ConstDataset const* dataset);
 
 /**
  * @brief Destroy the converter and free up the memory that was dedicated to it.
