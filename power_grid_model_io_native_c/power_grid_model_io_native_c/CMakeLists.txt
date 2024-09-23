@@ -4,8 +4,8 @@
 
 # C API library
 add_library(power_grid_model_io_native_c SHARED
-"src/handle.cpp"
-"src/vnf_pgm_converter.cpp"
+  "src/handle.cpp"
+  "src/vnf_pgm_converter.cpp"
 )
 
 target_include_directories(power_grid_model_io_native_c PUBLIC

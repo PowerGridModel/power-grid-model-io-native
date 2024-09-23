@@ -51,12 +51,12 @@ inline PgmVnfConverter::PgmVnfConverter(char* buffer, power_grid_model::Writable
     using power_grid_model::ExperimentalFeature;
     throw ExperimentalFeature{"PGM_VNF_converter", ExperimentalFeature::TypeValuePair{.name = "PGM_VNF_conversion",
                                                                                       .value = std::to_string(1)}};
-};
+}
 
-inline void PgmVnfConverter::parse_vnf_file(){
+inline void PgmVnfConverter::parse_vnf_file() {
     // the function should use a deserializer type structure
     // will be implemented later
-};
+}
 
 inline power_grid_model::ConstDataset const*
 PgmVnfConverter::convert_input(power_grid_model::ConstDataset const* /*dataset*/) {
@@ -74,55 +74,55 @@ PgmVnfConverter::convert_input(power_grid_model::ConstDataset const* /*dataset*/
     // for now.
     power_grid_model::ConstDataset* fake_data = nullptr;
     return fake_data;
-};
+}
 
-inline void PgmVnfConverter::set_file_buffer(char* file_buffer) { this->f_file_buffer = file_buffer; };
+inline void PgmVnfConverter::set_file_buffer(char* file_buffer) { this->f_file_buffer = file_buffer; }
 
 inline void PgmVnfConverter::set_deserialized_data(power_grid_model::WritableDataset* data) {
     this->deserialized_data = data;
-};
+}
 
-inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; };
+inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; }
 
-inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data() { return this->deserialized_data; };
+inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data() { return this->deserialized_data; }
 
-inline void PgmVnfConverter::convert_node_input(){
+inline void PgmVnfConverter::convert_node_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_line_input(){
+inline void PgmVnfConverter::convert_line_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_sources_input(){
+inline void PgmVnfConverter::convert_sources_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_sym_loads_input(){
+inline void PgmVnfConverter::convert_sym_loads_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_shunts_input(){
+inline void PgmVnfConverter::convert_shunts_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_transformer_input(){
+inline void PgmVnfConverter::convert_transformer_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_sym_gens_input(){
+inline void PgmVnfConverter::convert_sym_gens_input() {
     // Implementation
-};
+}
 
-inline void PgmVnfConverter::convert_links_input(){
+inline void PgmVnfConverter::convert_links_input() {
     // Implementation
-};
+}
 
-inline void parse_vnf_file_wrapper(PgmVnfConverter* obj) { obj->parse_vnf_file(); };
+inline void parse_vnf_file_wrapper(PgmVnfConverter* obj) { obj->parse_vnf_file(); }
 
 inline power_grid_model::ConstDataset const* convert_input_wrapper(PgmVnfConverter* obj,
                                                                    power_grid_model::ConstDataset const* dataset) {
     return obj->convert_input(dataset);
-};
+}
 
 #endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
