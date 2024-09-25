@@ -36,7 +36,7 @@ jobs:
           brew install boost eigen nlohmann-json msgpack-cxx doctest
 
       - name: Configure with CMake
-        run: cmake -S . -B build
+        run: cmake -S . -B build -DPGM_IO_ENABLE_DEV_BUILD=ON
 
       - name: Build with CMake
         run: cmake --build build --config Release
