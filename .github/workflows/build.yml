@@ -16,16 +16,24 @@ jobs:
         run: |
           git submodule update --init --recursive
 
+      # - name: Install C++ dependencies
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y \
+      #       libeigen3-dev \
+      #       libboost-all-dev \
+      #       nlohmann-json3-dev \
+
+      # # - name: Create build directory
+      # #   run: mkdir -p build
+
+      - name: Enable brew
+        run: |
+          echo "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
+
       - name: Install C++ dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libeigen3-dev \
-            libboost-all-dev \
-            nlohmann-json3-dev \
-
-      # - name: Create build directory
-      #   run: mkdir -p build
+          brew install boost eigen nlohmann-json msgpack-cxx doctest
 
       - name: Configure with CMake
         run: cmake -S . -B build
