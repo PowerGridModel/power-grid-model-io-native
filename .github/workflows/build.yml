@@ -12,9 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Initialize and update submodules
-      #   run: |
-      #     git submodule update --init --recursive
+      - name: Initialize and update submodules
+        run: |
+          git submodule update --init --recursive
 
       - name: Install C++ dependencies
         run: |
