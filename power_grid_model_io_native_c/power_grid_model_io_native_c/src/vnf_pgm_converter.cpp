@@ -14,7 +14,7 @@
 
 using power_grid_model::ConstDataset;
 
-// TODO(Laurynas-Jagutis) add call_with_catch for these functions
+// TODO(Laurynas-Jagutis) add call_with_catch for these functions.
 PGM_IO_VnfConverter* PGM_VNF_create_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer) {
     auto* converter = new PgmVnfConverter(file_buffer);
     parse_vnf_file_wrapper(converter);
