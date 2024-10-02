@@ -87,7 +87,7 @@ inline std::string PgmVnfConverter::convert_input() {
     convert_links_input();
 
     power_grid_model::Container<power_grid_model::Node> container;
-
+    
     for (const auto& node : nodes) {
         container.emplace<power_grid_model::Node>(node.id(), node);
     }
@@ -121,6 +121,7 @@ inline std::vector<power_grid_model::Node> PgmVnfConverter::convert_node_input()
 
     std::vector<power_grid_model::Node> nodes;
 
+    nodes.reserve(node_inputs.size());
     for (const auto& node_input : node_inputs) {
         nodes.emplace_back(node_input);
     }
