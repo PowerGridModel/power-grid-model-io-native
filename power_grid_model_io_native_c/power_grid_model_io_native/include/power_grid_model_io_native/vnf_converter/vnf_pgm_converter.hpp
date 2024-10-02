@@ -6,10 +6,25 @@
 #ifndef POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
 #define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
 
+#include <power_grid_model/auxiliary/serialization/serializer.hpp>
 #include <power_grid_model/auxiliary/dataset.hpp>
+#include <power_grid_model/component/node.hpp>
+#include <power_grid_model/container.hpp>
 #include <power_grid_model/common/exception.hpp>
 
 #include <iostream>
+
+inline power_grid_model::ConstDataset create_const_dataset_from_container(const power_grid_model::Container<power_grid_model::Node>& container, power_grid_model::meta_data::MetaData const& meta_data) {
+    std::string_view dataset_name = "empty_dataset";
+    power_grid_model::ConstDataset const_dataset{false, 1, dataset_name, meta_data};
+    return const_dataset;
+}
+
+inline std::string get_serialized_data(power_grid_model::ConstDataset& const_dataset) {
+    power_grid_model::meta_data::Serializer serializer(const_dataset, power_grid_model::SerializationFormat::json);
+    std::string serialized_pgm_data = serializer.get_string(false, -1);
+    return serialized_pgm_data;
+}
 
 class PgmVnfConverter {
   public:
@@ -17,7 +32,7 @@ class PgmVnfConverter {
 
     // Public member functions
     void parse_vnf_file();
-    power_grid_model::ConstDataset const* convert_input(power_grid_model::ConstDataset const* dataset);
+    std::string convert_input();
 
   private:
     // Private attributes
@@ -35,7 +50,7 @@ class PgmVnfConverter {
     power_grid_model::WritableDataset* get_deserialized_data();
 
     // Private member functions
-    void convert_node_input();
+    std::vector<power_grid_model::Node> convert_node_input();
     void convert_line_input();
     void convert_sources_input();
     void convert_sym_loads_input();
@@ -58,9 +73,8 @@ inline void PgmVnfConverter::parse_vnf_file() {
     // will be implemented later
 }
 
-inline power_grid_model::ConstDataset const*
-PgmVnfConverter::convert_input(power_grid_model::ConstDataset const* /*dataset*/) {
-    convert_node_input();
+inline std::string PgmVnfConverter::convert_input() {
+    std::vector<power_grid_model::Node> nodes = convert_node_input();
     convert_line_input();
     convert_sources_input();
     convert_sym_loads_input();
@@ -69,11 +83,23 @@ PgmVnfConverter::convert_input(power_grid_model::ConstDataset const* /*dataset*/
     convert_sym_gens_input();
     convert_links_input();
 
-    // then return the buffer
-    // return pgm_input_data;
-    // for now.
-    power_grid_model::ConstDataset* fake_data = nullptr;
-    return fake_data;
+    power_grid_model::Container<power_grid_model::Node> container;
+
+    for (const auto& node : nodes) {
+        container.emplace<power_grid_model::Node>(node.id(), node);
+    }
+
+    power_grid_model::meta_data::MetaData meta_data;
+
+    power_grid_model::ConstDataset const_dataset = create_const_dataset_from_container(container, meta_data);
+
+    std::string serialized_pgm_data = get_serialized_data(const_dataset);
+
+    // 1. our vnf importer it directly understands the vnf format
+    // 2. convert vnf like dataset to internal types (take raw data and convert it to pgm component container)
+    // 3. another function which 1. makes const dataset view from pgm component container  2. const dataset to serializer
+
+    return serialized_pgm_data;
 }
 
 inline void PgmVnfConverter::set_file_buffer(char* file_buffer) { this->f_file_buffer = file_buffer; }
@@ -86,8 +112,18 @@ inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; }
 
 inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data() { return this->deserialized_data; }
 
-inline void PgmVnfConverter::convert_node_input() {
-    // Implementation
+inline std::vector<power_grid_model::Node> PgmVnfConverter::convert_node_input() {
+    std::vector<power_grid_model::NodeInput> node_inputs = {
+        {1, 110.0}
+    };
+
+    std::vector<power_grid_model::Node> nodes;
+
+    for (const auto& node_input : node_inputs) {
+        nodes.emplace_back(node_input);
+    }
+
+    return nodes;
 }
 
 inline void PgmVnfConverter::convert_line_input() {
@@ -120,9 +156,8 @@ inline void PgmVnfConverter::convert_links_input() {
 
 inline void parse_vnf_file_wrapper(PgmVnfConverter* obj) { obj->parse_vnf_file(); }
 
-inline power_grid_model::ConstDataset const* convert_input_wrapper(PgmVnfConverter* obj,
-                                                                   power_grid_model::ConstDataset const* dataset) {
-    return obj->convert_input(dataset);
+inline std::string convert_input_wrapper(PgmVnfConverter* obj) {
+    return obj->convert_input();
 }
 
 #endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
