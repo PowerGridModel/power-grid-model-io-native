@@ -23,7 +23,7 @@ PGM_IO_VnfConverter* PGM_VNF_create_converter(const PGM_IO_Handle* /*handle*/, c
 
 char const* PGM_VNF_get_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr) {
     auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
-    std::string json_data = convert_input_wrapper(converter);
+    std::string const json_data = convert_input_wrapper(converter);
     return json_data.c_str();
 }
 

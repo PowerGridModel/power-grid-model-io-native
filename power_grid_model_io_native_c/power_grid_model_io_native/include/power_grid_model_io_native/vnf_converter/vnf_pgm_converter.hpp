@@ -117,6 +117,9 @@ inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; }
 inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data() { return this->deserialized_data; }
 
 inline std::vector<power_grid_model::Node> PgmVnfConverter::convert_node_input() {
+    // here the deserialized data should be used
+    auto data = this->deserialized_data;
+
     std::vector<power_grid_model::NodeInput> const node_inputs = {{1, 110.0}};
 
     std::vector<power_grid_model::Node> nodes;
