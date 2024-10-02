@@ -87,7 +87,7 @@ inline std::string PgmVnfConverter::convert_input() {
     convert_links_input();
 
     power_grid_model::Container<power_grid_model::Node> container;
-    
+
     for (const auto& node : nodes) {
         container.emplace<power_grid_model::Node>(node.id(), node);
     }
@@ -117,7 +117,7 @@ inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; }
 inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data() { return this->deserialized_data; }
 
 inline std::vector<power_grid_model::Node> PgmVnfConverter::convert_node_input() {
-    std::vector<power_grid_model::NodeInput> node_inputs = {{1, 110.0}};
+    std::vector<power_grid_model::NodeInput> const node_inputs = {{1, 110.0}};
 
     std::vector<power_grid_model::Node> nodes;
 
