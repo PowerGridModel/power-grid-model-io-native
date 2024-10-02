@@ -15,8 +15,9 @@
 #include <iostream>
 
 inline power_grid_model::ConstDataset
-create_const_dataset_from_container(const power_grid_model::Container<power_grid_model::Node>& container,
+create_const_dataset_from_container(const power_grid_model::Container<power_grid_model::Node>& /*container*/,
                                     power_grid_model::meta_data::MetaData const& meta_data) {
+    // for now leave it empty
     std::string_view const dataset_name = "empty_dataset";
     power_grid_model::ConstDataset const_dataset{false, 1, dataset_name, meta_data};
     return const_dataset;
@@ -95,7 +96,7 @@ inline std::string PgmVnfConverter::convert_input() {
 
     power_grid_model::ConstDataset const_dataset = create_const_dataset_from_container(container, meta_data);
 
-    std::string const serialized_pgm_data = get_serialized_data(const_dataset);
+    std::string serialized_pgm_data = get_serialized_data(const_dataset);
 
     // 1. our vnf importer it directly understands the vnf format
     // 2. convert vnf like dataset to internal types (take raw data and convert it to pgm component container)
