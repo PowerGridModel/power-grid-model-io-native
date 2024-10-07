@@ -38,7 +38,7 @@ class PgmVnfConverter {
     void parse_vnf_file();
     void convert_input();
 
-    std::string const& get_serialized_data();
+    std::string const& get_serialized_data() const;
     void set_file_buffer(char* file_buffer);
     void set_deserialized_data(power_grid_model::WritableDataset* deserialized_data);
     char* get_file_buffer();
@@ -114,7 +114,7 @@ inline char* PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; }
 
 inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data() { return this->deserialized_data; }
 
-inline std::string const& PgmVnfConverter::get_serialized_data() { return this->serialized_data; }
+inline std::string const& PgmVnfConverter::get_serialized_data() const { return this->serialized_data; }
 
 inline std::vector<power_grid_model::Node>
 PgmVnfConverter::convert_node_input() { // NOLINT(readability-convert-member-functions-to-static)
