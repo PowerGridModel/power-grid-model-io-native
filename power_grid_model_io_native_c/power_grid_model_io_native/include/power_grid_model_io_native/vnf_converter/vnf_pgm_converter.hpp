@@ -91,7 +91,7 @@ inline void PgmVnfConverter::convert_input() {
         container.emplace<power_grid_model::Node>(node.id(), node);
     }
 
-    constexpr auto& const meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+    constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
 
     std::string const serialized_pgm_data = serialize_data(const_dataset);
