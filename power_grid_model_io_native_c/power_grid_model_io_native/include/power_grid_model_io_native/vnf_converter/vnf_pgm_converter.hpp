@@ -52,7 +52,7 @@ class PgmVnfConverter {
     std::string serialized_data;
 
     // Private member functions
-    std::vector<power_grid_model::Node> convert_node_input();
+    static std::vector<power_grid_model::Node> convert_node_input();
     void convert_line_input();
     void convert_sources_input();
     void convert_sym_loads_input();
@@ -116,8 +116,7 @@ inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_data
 
 inline std::string const& PgmVnfConverter::get_serialized_data() const { return this->serialized_data; }
 
-inline std::vector<power_grid_model::Node>
-PgmVnfConverter::convert_node_input() { // NOLINT(readability-convert-member-functions-to-static)
+inline std::vector<power_grid_model::Node> PgmVnfConverter::convert_node_input() {
     std::vector<power_grid_model::NodeInput> const node_inputs = {{1, 110.0}};
     std::vector<power_grid_model::Node> nodes;
 
