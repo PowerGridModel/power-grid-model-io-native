@@ -14,12 +14,12 @@
 
 #include <iostream>
 
-inline power_grid_model::ConstDataset
+inline power_grid_model::ConstDataset const
 create_const_dataset_from_container(power_grid_model::Container<power_grid_model::Node> const& /*container*/,
                                     power_grid_model::meta_data::MetaData const& meta_data) {
     // for now leave it empty
     std::string_view const dataset_name = "empty_dataset";
-    power_grid_model::ConstDataset const_dataset{false, 1, dataset_name, meta_data};
+    power_grid_model::ConstDataset const const_dataset{false, 1, dataset_name, meta_data};
     return const_dataset;
 }
 
@@ -92,7 +92,7 @@ inline void PgmVnfConverter::convert_input() {
 
     power_grid_model::meta_data::MetaData const meta_data;
 
-    power_grid_model::ConstDataset const_dataset = create_const_dataset_from_container(container, meta_data);
+    power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
 
     std::string const serialized_pgm_data = serialize_data(const_dataset);
 
