@@ -7,6 +7,7 @@
 #define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
 
 #include <power_grid_model/auxiliary/dataset.hpp>
+#include <power_grid_model/auxiliary/meta_data_gen.hpp>
 #include <power_grid_model/auxiliary/serialization/serializer.hpp>
 #include <power_grid_model/common/exception.hpp>
 #include <power_grid_model/component/node.hpp>

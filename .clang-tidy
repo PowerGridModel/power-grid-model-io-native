@@ -26,6 +26,7 @@ google-*,
 -google-build-using-namespace,
 -google-explicit-constructor
 misc-*,
+-misc-no-recursion,
 -misc-non-private-member-variables-in-classes,
 modernize-*,
 -modernize-avoid-c-arrays,
