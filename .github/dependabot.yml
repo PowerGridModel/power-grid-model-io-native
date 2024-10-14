@@ -8,3 +8,5 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    pull-request-branch:
+      allow-secrets: true
