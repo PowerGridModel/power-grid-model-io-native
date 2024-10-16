@@ -19,8 +19,9 @@ struct PGM_IO_VnfConverter : public PgmVnfConverter {
 };
 
 // TODO(Laurynas-Jagutis) add call_with_catch for these functions.
-PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer) {
-    auto* converter = new PGM_IO_VnfConverter(file_buffer);
+PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer,
+                                                 PGM_IO_Idx experimental_features) {
+    auto* converter = new PGM_IO_VnfConverter(file_buffer, nullptr, experimental_features);
     parse_vnf_file_wrapper(converter);
     return converter;
 }
