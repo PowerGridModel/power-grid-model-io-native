@@ -34,7 +34,7 @@ PGM_IO_API char const* PGM_IO_get_vnf_input_data(PGM_IO_Handle* handle, PGM_IO_V
  * @brief Destroy the PGM_IO_VnfConverter and free up the memory that was dedicated to it.
  * @param converter_ptr A pointer to a PGM_IO_VnfConverter instance.
  */
-PGM_IO_API void PGM_IO_delete_vnf_converter(PGM_IO_VnfConverter* converter_ptr);
+PGM_IO_API void PGM_IO_destroy_vnf_converter(PGM_IO_VnfConverter* converter_ptr);
 
 #ifdef __cplusplus
 }
