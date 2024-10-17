@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-// #include <power_grid_model_io_native_c/vnf_pgm_converter.h>
 #include <power_grid_model_io_native_c/handle.h>
+#include <power_grid_model_io_native_c/vnf_pgm_converter.h>
 
 #include <power_grid_model/common/exception.hpp>
-
-#include "C:\headers\true_pgmionative\power-grid-model-io-native\power_grid_model_io_native_c\power_grid_model_io_native_c\src\vnf_pgm_converter.cpp"
 
 #include <doctest/doctest.h>
 
