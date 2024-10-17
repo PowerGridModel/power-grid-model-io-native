@@ -14,22 +14,19 @@
 
 using power_grid_model::ConstDataset;
 
-// TODO(Laurynas-Jagutis) add call_with_catch for these functions
-PGM_IO_VnfConverter* PGM_VNF_create_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer) {
-    auto* converter = new PgmVnfConverter(file_buffer);
+struct PGM_IO_VnfConverter : public PgmVnfConverter {
+    using PgmVnfConverter::PgmVnfConverter;
+};
+
+// TODO(Laurynas-Jagutis) add call_with_catch for these functions.
+PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer) {
+    auto* converter = new PGM_IO_VnfConverter(file_buffer);
     parse_vnf_file_wrapper(converter);
-    return reinterpret_cast<PGM_IO_VnfConverter*>(converter);
+    return converter;
 }
 
-PGM_IO_ConstDataset const* PGM_VNF_get_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr,
-                                                  PGM_IO_ConstDataset const* dataset) {
-    auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
-    auto const* data = reinterpret_cast<ConstDataset const*>(dataset);
-    convert_input_wrapper(converter, data);
-    return reinterpret_cast<PGM_IO_ConstDataset const*>(data);
+char const* PGM_IO_get_vnf_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr) {
+    return convert_input_wrapper(converter_ptr).c_str();
 }
 
-void PGM_VNF_delete_Converter(PGM_IO_VnfConverter* converter_ptr) {
-    auto* converter = reinterpret_cast<PgmVnfConverter*>(converter_ptr);
-    delete converter;
-}
+void PGM_IO_destroy_vnf_converter(PGM_IO_VnfConverter* converter_ptr) { delete converter_ptr; }
