@@ -17,7 +17,7 @@ extern "C" {
  * @param handle
  * @param file_buffer A pointer to the null-terminated C string.
  * @return The pointer to a PGM_IO_VnfConverter instance. The instance must be freed by
- * PGM_IO_delete_vnf_converter.
+ * PGM_IO_destroy_vnf_converter.
  */
 PGM_IO_API PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char* file_buffer);
 
