@@ -30,4 +30,4 @@ char const* PGM_IO_get_vnf_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_Vn
     return convert_input_wrapper(converter_ptr).c_str();
 }
 
-void PGM_IO_delete_vnf_converter(PGM_IO_VnfConverter* converter_ptr) { delete converter_ptr; }
+void PGM_IO_destroy_vnf_converter(PGM_IO_VnfConverter* converter_ptr) { delete converter_ptr; }
