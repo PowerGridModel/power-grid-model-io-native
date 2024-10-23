@@ -65,7 +65,7 @@ class PgmVnfConverter {
     void convert_links_input();
 };
 
-inline PgmVnfConverter::PgmVnfConverter(char* buffer, power_grid_model::WritableDataset* data,
+inline PgmVnfConverter::PgmVnfConverter(char* const buffer, power_grid_model::WritableDataset* data,
                                         power_grid_model_io_native::Idx experimental_feature_flag)
     : f_file_buffer(buffer), deserialized_data(data) {
     if (experimental_feature_flag == 0) {
