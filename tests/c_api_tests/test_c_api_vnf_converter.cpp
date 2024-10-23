@@ -18,7 +18,7 @@ TEST_CASE("Test PGM_IO_create_vnf_converter") {
 
     SUBCASE("Test PGM_IO_create_vnf_converter without experimental feature flag") {
         PGM_IO_Handle* handle = PGM_IO_create_handle();
-        auto converter = PGM_IO_create_vnf_converter(handle, nullptr, experimental_feature_flag);
+        auto converter = PGM_IO_create_vnf_converter(handle, "", experimental_feature_flag);
         CHECK(PGM_IO_error_code(handle) == PGM_IO_regular_error);
         PGM_IO_destroy_vnf_converter(converter);
         PGM_IO_destroy_handle(handle);
@@ -27,7 +27,7 @@ TEST_CASE("Test PGM_IO_create_vnf_converter") {
     SUBCASE("Test PGM_IO_create_vnf_converter with experimental feature flag") {
         PGM_IO_Handle* handle = PGM_IO_create_handle();
         experimental_feature_flag = 1;
-        auto converter = PGM_IO_create_vnf_converter(handle, nullptr, experimental_feature_flag);
+        auto converter = PGM_IO_create_vnf_converter(handle, "", experimental_feature_flag);
         CHECK(converter != nullptr);
         PGM_IO_destroy_vnf_converter(converter);
         PGM_IO_destroy_handle(handle);
@@ -39,12 +39,12 @@ TEST_CASE("Test PGM_IO_get_vnf_input_data") {
     PGM_IO_Idx experimental_feature_flag = 0;
 
     experimental_feature_flag = 1;
-    auto converter = PGM_IO_create_vnf_converter(handle, nullptr, experimental_feature_flag);
+    auto converter = PGM_IO_create_vnf_converter(handle, "", experimental_feature_flag);
     CHECK(converter != nullptr);
 
     auto json_result = PGM_IO_get_vnf_input_data(handle, converter);
-    auto json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
-    CHECK(strcmp(json_string, json_result) == 0);
+    std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
+    CHECK(json_string == json_result);
 
     PGM_IO_destroy_vnf_converter(converter);
     PGM_IO_destroy_handle(handle);
