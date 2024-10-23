@@ -12,6 +12,8 @@
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 
+using namespace power_grid_model_io_native;
+
 using power_grid_model::ConstDataset;
 
 struct PGM_IO_VnfConverter : public PgmVnfConverter {

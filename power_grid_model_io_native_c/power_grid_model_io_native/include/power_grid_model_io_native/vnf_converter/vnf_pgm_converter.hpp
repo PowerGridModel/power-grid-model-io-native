@@ -17,6 +17,8 @@
 
 #include <iostream>
 
+namespace power_grid_model_io_native {
+
 inline power_grid_model::ConstDataset
 create_const_dataset_from_container(power_grid_model::Container<power_grid_model::Node> const& /*container*/,
                                     power_grid_model::meta_data::MetaData const& meta_data) {
@@ -32,7 +34,7 @@ inline std::string serialize_data(power_grid_model::ConstDataset const& const_da
     return serialized_pgm_data;
 }
 
-using namespace power_grid_model_io_native;
+// using namespace power_grid_model_io_native;
 
 class PgmVnfConverter {
   public:
@@ -172,5 +174,7 @@ inline std::string const& convert_input_wrapper(PgmVnfConverter* obj) {
     obj->convert_input();
     return obj->get_serialized_data();
 }
+
+} // namespace power_grid_model_io_native
 
 #endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
