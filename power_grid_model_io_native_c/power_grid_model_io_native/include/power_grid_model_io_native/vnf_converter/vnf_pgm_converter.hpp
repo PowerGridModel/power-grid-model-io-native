@@ -72,14 +72,17 @@ inline PgmVnfConverter::PgmVnfConverter(char const* buffer, power_grid_model::Wr
     : f_file_buffer(buffer), deserialized_data(data) {
     if (experimental_feature_flag == 0) {
         using power_grid_model::ExperimentalFeature;
-        throw ExperimentalFeature{"PGM_VNF_converter", ExperimentalFeature::TypeValuePair{.name = "PGM_VNF_conversion",
-                                                                                          .value = "PgmVnfConverter is still in an experimental phase, if you'd like to use it, enable experimental features."}};
+        throw ExperimentalFeature{
+            "PGM_VNF_converter",
+            ExperimentalFeature::TypeValuePair{.name = "PGM_VNF_conversion",
+                                               .value = "PgmVnfConverter is still in an experimental phase, if you'd "
+                                                        "like to use it, enable experimental features."}};
     }
 }
 
 inline void PgmVnfConverter::parse_vnf_file() {
     // the function should use a deserializer type structure
-    // will be implemented later
+    // will be implemented later.
 }
 
 inline void PgmVnfConverter::convert_input() {
