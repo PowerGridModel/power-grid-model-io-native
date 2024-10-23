@@ -11,6 +11,7 @@ namespace power_grid_model_io_native {
 
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features enabled") {
+        PgmVnfConverter(nullptr, nullptr, 0);
         CHECK_THROWS_AS(PgmVnfConverter(nullptr, nullptr, 0), power_grid_model::ExperimentalFeature);
     }
 

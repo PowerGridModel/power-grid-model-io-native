@@ -19,15 +19,21 @@ struct PGM_IO_VnfConverter : public PgmVnfConverter {
 };
 
 // TODO(Laurynas-Jagutis) add call_with_catch for these functions.
-PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(const PGM_IO_Handle* /*handle*/, char* file_buffer,
+PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char* file_buffer,
                                                  PGM_IO_Idx experimental_features) {
-    auto* converter = new PGM_IO_VnfConverter(file_buffer, nullptr, experimental_features);
-    parse_vnf_file_wrapper(converter);
-    return converter;
+    return call_with_catch(
+        handle,
+        [file_buffer, experimental_features] {
+            auto* converter = new PGM_IO_VnfConverter(file_buffer, nullptr, experimental_features);
+            parse_vnf_file_wrapper(converter);
+            return converter;
+        },
+        PGM_IO_regular_error);
 }
 
-char const* PGM_IO_get_vnf_input_data(const PGM_IO_Handle* /*handle*/, PGM_IO_VnfConverter* converter_ptr) {
-    return convert_input_wrapper(converter_ptr).c_str();
+char const* PGM_IO_get_vnf_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr) {
+    return call_with_catch(
+        handle, [converter_ptr] { return convert_input_wrapper(converter_ptr).c_str(); }, PGM_IO_regular_error);
 }
 
 void PGM_IO_destroy_vnf_converter(PGM_IO_VnfConverter* converter_ptr) { delete converter_ptr; }
