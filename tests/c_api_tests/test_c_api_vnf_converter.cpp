@@ -8,6 +8,7 @@
 
 #include <power_grid_model/common/exception.hpp>
 
+#include <cstring>
 #include <doctest/doctest.h>
 
 namespace power_grid_model_io_native {
