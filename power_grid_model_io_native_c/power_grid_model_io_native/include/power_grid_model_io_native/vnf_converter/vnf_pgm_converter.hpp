@@ -34,7 +34,7 @@ inline std::string serialize_data(power_grid_model::ConstDataset const& const_da
 
 class PgmVnfConverter {
   public:
-    PgmVnfConverter(char* buffer = nullptr, power_grid_model::WritableDataset* data = nullptr,
+    PgmVnfConverter(const char* buffer = nullptr, power_grid_model::WritableDataset* data = nullptr,
                     power_grid_model_io_native::Idx experimental_feature_flag = 0);
 
     // Public member functions
