@@ -17,20 +17,20 @@ TEST_CASE("Test PGM_IO_create_vnf_converter") {
     PGM_IO_Idx experimental_feature_flag = 0;
 
     SUBCASE("Test PGM_IO_create_vnf_converter without experimental feature flag") {
-        PGM_IO_Handle* handle0 = PGM_IO_create_handle();
-        auto converter = PGM_IO_create_vnf_converter(handle0, nullptr, experimental_feature_flag);
-        CHECK(PGM_IO_error_code(handle0) == PGM_IO_regular_error);
+        PGM_IO_Handle* handle = PGM_IO_create_handle();
+        auto converter = PGM_IO_create_vnf_converter(handle, nullptr, experimental_feature_flag);
+        CHECK(PGM_IO_error_code(handle) == PGM_IO_regular_error);
         PGM_IO_destroy_vnf_converter(converter);
-        PGM_IO_destroy_handle(handle0);
+        PGM_IO_destroy_handle(handle);
     }
 
     SUBCASE("Test PGM_IO_create_vnf_converter with experimental feature flag") {
-        PGM_IO_Handle* handle1 = PGM_IO_create_handle();
+        PGM_IO_Handle* handle = PGM_IO_create_handle();
         experimental_feature_flag = 1;
-        auto converter = PGM_IO_create_vnf_converter(handle1, nullptr, experimental_feature_flag);
+        auto converter = PGM_IO_create_vnf_converter(handle, nullptr, experimental_feature_flag);
         CHECK(converter != nullptr);
         PGM_IO_destroy_vnf_converter(converter);
-        PGM_IO_destroy_handle(handle1);
+        PGM_IO_destroy_handle(handle);
     }
 }
 
