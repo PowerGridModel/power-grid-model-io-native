@@ -12,6 +12,8 @@ namespace power_grid_model_io_native {
 
 using enum ExperimentalFeatures;
 
+std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
+
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features enabled") {
         CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), power_grid_model::ExperimentalFeature);
@@ -30,7 +32,6 @@ TEST_CASE("Test the convert_input function") {
     SUBCASE("Test if the convert_input function can be called") { CHECK_NOTHROW(converter.convert_input()); }
     SUBCASE("Test the return of convert_input") {
         converter.convert_input();
-        std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
         auto json_result = converter.get_serialized_data();
         CHECK(json_string == json_result);
     }
@@ -48,7 +49,6 @@ TEST_CASE("Test the serialize_data function") {
     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
     CHECK_NOTHROW(serialize_data(const_dataset));
     auto result = serialize_data(const_dataset);
-    std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
     CHECK(result == json_string);
 }
 
@@ -77,7 +77,6 @@ TEST_CASE("Test parse_vnf_file_wrapper") {
 TEST_CASE("Test convert_input_wrapper") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     PgmVnfConverter* converterPtr = &converter;
-    std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
     CHECK_NOTHROW(convert_input_wrapper(converterPtr));
     auto result = convert_input_wrapper(converterPtr);
     CHECK(json_string == result);
