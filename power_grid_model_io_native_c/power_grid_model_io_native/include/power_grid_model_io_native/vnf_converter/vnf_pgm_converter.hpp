@@ -70,7 +70,7 @@ class PgmVnfConverter {
 };
 
 inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFeatures experimental_feature_flag)
-    : f_file_buffer(buffer) {
+    : f_file_buffer(buffer), deserialized_data(nullptr) {
     if (experimental_feature_flag == experimental_features_disabled) {
         using power_grid_model::ExperimentalFeature;
         throw ExperimentalFeature{
