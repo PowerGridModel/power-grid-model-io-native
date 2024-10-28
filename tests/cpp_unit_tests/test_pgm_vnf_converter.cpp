@@ -5,6 +5,10 @@
 #include <power_grid_model_io_native/common/enum.hpp>
 #include <power_grid_model_io_native/vnf_converter/vnf_pgm_converter.hpp>
 
+#include <power_grid_model/auxiliary/dataset.hpp>
+#include <power_grid_model/auxiliary/meta_data.hpp>
+#include <power_grid_model/auxiliary/meta_gen/gen_getters.hpp>
+
 #include <cstring>
 #include <doctest/doctest.h>
 
@@ -60,13 +64,17 @@ TEST_CASE("Test the setter and getter of file_buffer") {
     CHECK(file_buff == value);
 }
 
-// TEST_CASE("Test the setter and getter of deserialized_data") {
-//     auto converter = PgmVnfConverter("", experimental_features_enabled);
-//     power_grid_model::WritableDataset* dataset = nullptr;
-//     converter.set_deserialized_data(dataset);
-//     auto const_data = converter.get_deserialized_data();
-//     CHECK(dataset == const_data);
-// }
+TEST_CASE("Test the setter and getter of deserialized_data") {
+    constexpr auto const& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+
+    std::string_view const dataset_name = "input";
+    power_grid_model::WritableDataset writable_dataset{false, 1, dataset_name, meta_data};
+
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
+    converter.set_deserialized_dataset(&writable_dataset);
+    auto writable_dataset_after_getter = converter.get_deserialized_dataset();
+    CHECK(&writable_dataset == writable_dataset_after_getter);
+}
 
 TEST_CASE("Test parse_vnf_file_wrapper") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
