@@ -60,7 +60,7 @@ TEST_CASE("Test the setter and getter of file_buffer") {
     CHECK(file_buff == value);
 }
 
-// TEST_CASE("Test the setter and getter of deserialized data") {
+// TEST_CASE("Test the setter and getter of deserialized_data") {
 //     auto converter = PgmVnfConverter("", experimental_features_enabled);
 //     power_grid_model::WritableDataset* dataset = nullptr;
 //     converter.set_deserialized_data(dataset);
