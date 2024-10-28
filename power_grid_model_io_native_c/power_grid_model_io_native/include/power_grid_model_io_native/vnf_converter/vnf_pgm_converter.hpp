@@ -48,7 +48,7 @@ class PgmVnfConverter {
     std::string const& get_serialized_data() const;
     void set_file_buffer(std::string_view file_buffer);
     void set_deserialized_dataset(power_grid_model::WritableDataset* deserialized_data);
-    std::string_view const get_file_buffer();
+    std::string_view get_file_buffer const();
     power_grid_model::WritableDataset* get_deserialized_dataset();
 
   private:
@@ -121,7 +121,7 @@ inline void PgmVnfConverter::set_deserialized_dataset(power_grid_model::Writable
     this->deserialized_data = data;
 }
 
-inline std::string_view const PgmVnfConverter::get_file_buffer() { return this->f_file_buffer; }
+inline std::string_view PgmVnfConverter::get_file_buffer() const { return this->f_file_buffer; }
 
 inline power_grid_model::WritableDataset* PgmVnfConverter::get_deserialized_dataset() {
     return this->deserialized_data;
