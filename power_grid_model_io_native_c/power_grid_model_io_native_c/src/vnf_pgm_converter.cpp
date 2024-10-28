@@ -4,6 +4,7 @@
 
 #define PGM_IO_DLL_EXPORTS
 
+#include <power_grid_model_io_native/common/enum.hpp>
 #include <power_grid_model_io_native/vnf_converter/vnf_pgm_converter.hpp>
 
 #include "handle.hpp"
@@ -14,19 +15,18 @@
 
 using namespace power_grid_model_io_native;
 
-using power_grid_model::ConstDataset;
-
 struct PGM_IO_VnfConverter : public PgmVnfConverter {
     using PgmVnfConverter::PgmVnfConverter;
 };
 
-// TODO(Laurynas-Jagutis) add call_with_catch for these functions.
 PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
-                                                 PGM_IO_Idx experimental_features) {
+                                                 PGM_IO_ExperimentalFeatures experimental_features) {
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
-            auto* converter = new PGM_IO_VnfConverter(file_buffer, nullptr, experimental_features);
+            ExperimentalFeatures experimental_feature =
+                static_cast<ExperimentalFeatures>(static_cast<IntS>(experimental_features));
+            auto* converter = new PGM_IO_VnfConverter(file_buffer, experimental_feature);
             parse_vnf_file_wrapper(converter);
             return converter;
         },

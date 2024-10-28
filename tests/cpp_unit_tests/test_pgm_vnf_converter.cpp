@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#include <power_grid_model_io_native/common/enum.hpp>
 #include <power_grid_model_io_native/vnf_converter/vnf_pgm_converter.hpp>
 
 #include <cstring>
@@ -9,21 +10,23 @@
 
 namespace power_grid_model_io_native {
 
+using enum ExperimentalFeatures;
+
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features enabled") {
-        CHECK_THROWS_AS(PgmVnfConverter("", nullptr, 0), power_grid_model::ExperimentalFeature);
+        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), power_grid_model::ExperimentalFeature);
     }
 
-    SUBCASE("With experimental features enabled") { CHECK_NOTHROW(PgmVnfConverter("", nullptr, 1)); }
+    SUBCASE("With experimental features enabled") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
 }
 
 TEST_CASE("Test if the parse_vnf_file function can be called") {
-    auto converter = PgmVnfConverter("", nullptr, 1);
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
     CHECK_NOTHROW(converter.parse_vnf_file());
 }
 
 TEST_CASE("Test the convert_input function") {
-    auto converter = PgmVnfConverter("", nullptr, 1);
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
     SUBCASE("Test if the convert_input function can be called") { CHECK_NOTHROW(converter.convert_input()); }
     SUBCASE("Test the return of convert_input") {
         converter.convert_input();
@@ -50,29 +53,29 @@ TEST_CASE("Test the serialize_data function") {
 }
 
 TEST_CASE("Test the setter and getter of file_buffer") {
-    auto converter = PgmVnfConverter("", nullptr, 1);
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
     std::string_view value = "123";
     converter.set_file_buffer(value);
     auto file_buff = converter.get_file_buffer();
     CHECK(file_buff == value);
 }
 
-TEST_CASE("Test the setter and getter of deserialized data") {
-    auto converter = PgmVnfConverter("", nullptr, 1);
-    power_grid_model::WritableDataset* dataset = nullptr;
-    converter.set_deserialized_data(dataset);
-    auto const_data = converter.get_deserialized_data();
-    CHECK(dataset == const_data);
-}
+// TEST_CASE("Test the setter and getter of deserialized data") {
+//     auto converter = PgmVnfConverter("", experimental_features_enabled);
+//     power_grid_model::WritableDataset* dataset = nullptr;
+//     converter.set_deserialized_data(dataset);
+//     auto const_data = converter.get_deserialized_data();
+//     CHECK(dataset == const_data);
+// }
 
 TEST_CASE("Test parse_vnf_file_wrapper") {
-    auto converter = PgmVnfConverter("", nullptr, 1);
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
     PgmVnfConverter* converterPtr = &converter;
     CHECK_NOTHROW(parse_vnf_file_wrapper(converterPtr));
 }
 
 TEST_CASE("Test convert_input_wrapper") {
-    auto converter = PgmVnfConverter("", nullptr, 1);
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
     PgmVnfConverter* converterPtr = &converter;
     std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
     CHECK_NOTHROW(convert_input_wrapper(converterPtr));

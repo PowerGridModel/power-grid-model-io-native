@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+#
+
 #include <power_grid_model_io_native_c/basics.h>
 #include <power_grid_model_io_native_c/handle.h>
 #include <power_grid_model_io_native_c/vnf_pgm_converter.h>
@@ -12,9 +14,11 @@
 #include <doctest/doctest.h>
 
 namespace power_grid_model_io_native {
-// test
+
+using enum PGM_IO_ExperimentalFeatures;
+
 TEST_CASE("Test PGM_IO_create_vnf_converter") {
-    PGM_IO_Idx experimental_feature_flag = 0;
+    PGM_IO_ExperimentalFeatures experimental_feature_flag = PGM_IO_experimental_features_disabled;
 
     SUBCASE("Test PGM_IO_create_vnf_converter without experimental feature flag") {
         PGM_IO_Handle* handle = PGM_IO_create_handle();
@@ -26,7 +30,7 @@ TEST_CASE("Test PGM_IO_create_vnf_converter") {
 
     SUBCASE("Test PGM_IO_create_vnf_converter with experimental feature flag") {
         PGM_IO_Handle* handle = PGM_IO_create_handle();
-        experimental_feature_flag = 1;
+        experimental_feature_flag = PGM_IO_experimental_features_enabled;
         auto converter = PGM_IO_create_vnf_converter(handle, "", experimental_feature_flag);
         CHECK(converter != nullptr);
         PGM_IO_destroy_vnf_converter(converter);
@@ -36,9 +40,8 @@ TEST_CASE("Test PGM_IO_create_vnf_converter") {
 
 TEST_CASE("Test PGM_IO_get_vnf_input_data") {
     PGM_IO_Handle* handle = PGM_IO_create_handle();
-    PGM_IO_Idx experimental_feature_flag = 0;
+    PGM_IO_ExperimentalFeatures experimental_feature_flag = PGM_IO_experimental_features_enabled;
 
-    experimental_feature_flag = 1;
     auto converter = PGM_IO_create_vnf_converter(handle, "", experimental_feature_flag);
     CHECK(converter != nullptr);
 

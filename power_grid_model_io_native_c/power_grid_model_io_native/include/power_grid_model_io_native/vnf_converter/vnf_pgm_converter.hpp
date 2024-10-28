@@ -7,6 +7,7 @@
 #define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
 
 #include <power_grid_model_io_native/common/common.hpp>
+#include <power_grid_model_io_native/common/enum.hpp>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
@@ -34,12 +35,11 @@ inline std::string serialize_data(power_grid_model::ConstDataset const& const_da
     return serialized_pgm_data;
 }
 
-// using namespace power_grid_model_io_native;
-
 class PgmVnfConverter {
   public:
-    PgmVnfConverter(std::string_view buffer, power_grid_model::WritableDataset* data,
-                    Idx experimental_feature_flag = 0);
+    using enum ExperimentalFeatures;
+    PgmVnfConverter(std::string_view buffer,
+                    ExperimentalFeatures experimental_feature_flag = experimental_features_disabled);
 
     // Public member functions
     void parse_vnf_file();
@@ -69,10 +69,9 @@ class PgmVnfConverter {
     void convert_links_input();
 };
 
-inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, power_grid_model::WritableDataset* data,
-                                        Idx experimental_feature_flag)
-    : f_file_buffer(buffer), deserialized_data(data) {
-    if (experimental_feature_flag == 0) {
+inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFeatures experimental_feature_flag)
+    : f_file_buffer(buffer) {
+    if (experimental_feature_flag == experimental_features_disabled) {
         using power_grid_model::ExperimentalFeature;
         throw ExperimentalFeature{
             "PGM_VNF_converter",
