@@ -24,8 +24,7 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
-            auto const experimental_feature =
-                static_cast<ExperimentalFeatures>(static_cast<IntS>(experimental_features));
+            auto const experimental_feature = static_cast<ExperimentalFeatures>(experimental_features);
             auto* converter = new PGM_IO_VnfConverter(file_buffer, experimental_feature);
             parse_vnf_file_wrapper(converter);
             return converter;
