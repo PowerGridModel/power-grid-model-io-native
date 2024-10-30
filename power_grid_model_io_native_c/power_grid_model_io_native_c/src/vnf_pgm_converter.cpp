@@ -25,13 +25,14 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
-            auto experimental_feature = ExperimentalFeatures::experimental_features_disabled;
+            using enum ExperimentalFeatures;
+            auto experimental_feature = experimental_features_disabled;
             switch (experimental_features) {
             case PGM_IO_experimental_features_disabled:
-                experimental_feature = ExperimentalFeatures::experimental_features_disabled;
+                experimental_feature = experimental_features_disabled;
                 break;
             case PGM_IO_experimental_features_enabled:
-                experimental_feature = ExperimentalFeatures::experimental_features_enabled;
+                experimental_feature = experimental_features_enabled;
                 break;
             default:
                 throw power_grid_model::MissingCaseForEnumError{"PGM_IO_create_vnf_converter", experimental_features};
