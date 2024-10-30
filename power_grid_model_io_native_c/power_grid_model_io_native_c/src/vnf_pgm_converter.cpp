@@ -12,6 +12,7 @@
 #include <power_grid_model_io_native_c/vnf_pgm_converter.h>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
+#include <power_grid_model/common/exception.hpp>
 
 using namespace power_grid_model_io_native;
 
@@ -24,7 +25,17 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
-            auto const experimental_feature = static_cast<ExperimentalFeatures>(experimental_features);
+            ExperimentalFeatures experimental_feature;
+            switch (experimental_features) {
+            case PGM_IO_experimental_features_disabled:
+                experimental_feature = ExperimentalFeatures::experimental_features_disabled;
+                break;
+            case PGM_IO_experimental_features_enabled:
+                experimental_feature = ExperimentalFeatures::experimental_features_enabled;
+                break;
+            default:
+                throw power_grid_model::MissingCaseForEnumError{"PGM_IO_create_vnf_converter", experimental_features};
+            }
             auto* converter = new PGM_IO_VnfConverter(file_buffer, experimental_feature);
             parse_vnf_file_wrapper(converter);
             return converter;
