@@ -14,9 +14,9 @@
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/common/exception.hpp>
 
-using namespace power_grid_model_io_native;
+namespace pgm_io = power_grid_model_io_native;
 
-struct PGM_IO_VnfConverter : public PgmVnfConverter {
+struct PGM_IO_VnfConverter : public pgm_io::PgmVnfConverter {
     using PgmVnfConverter::PgmVnfConverter;
 };
 
@@ -25,7 +25,7 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
-            using enum ExperimentalFeatures;
+            using enum pgm_io::ExperimentalFeatures;
             auto experimental_feature = experimental_features_disabled;
             switch (experimental_features) {
             case PGM_IO_experimental_features_disabled:
