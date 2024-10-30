@@ -19,35 +19,35 @@ using enum ExperimentalFeatures;
 std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
 
 TEST_CASE("Test converter constructor") {
-    SUBCASE("Without experimental features enabled") {
+    SUBCASE("Without experimental features") {
         CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), power_grid_model::ExperimentalFeature);
     }
 
-    SUBCASE("With experimental features enabled") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
+    SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
 }
 
-TEST_CASE("Test if the parse_vnf_file function can be called") {
+TEST_CASE("Test parse_vnf_file is callable") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     CHECK_NOTHROW(converter.parse_vnf_file());
 }
 
-TEST_CASE("Test the convert_input function") {
+TEST_CASE("Test convert_input") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
-    SUBCASE("Test if the convert_input function can be called") { CHECK_NOTHROW(converter.convert_input()); }
-    SUBCASE("Test the return of convert_input") {
+    SUBCASE("Test convert_input is callable") { CHECK_NOTHROW(converter.convert_input()); }
+    SUBCASE("Test convert_input") {
         converter.convert_input();
         auto json_result = converter.get_serialized_data();
         CHECK(json_string == json_result);
     }
 }
 
-TEST_CASE("Test if the create_const_dataset_from_container function can be called") {
+TEST_CASE("Test create_const_dataset_from_container is callable") {
     power_grid_model::Container<power_grid_model::Node> container;
     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
 }
 
-TEST_CASE("Test the serialize_data function") {
+TEST_CASE("Test serialize_data") {
     power_grid_model::Container<power_grid_model::Node> container;
     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
@@ -56,7 +56,7 @@ TEST_CASE("Test the serialize_data function") {
     CHECK(result == json_string);
 }
 
-TEST_CASE("Test the setter and getter of file_buffer") {
+TEST_CASE("Test setter/getter of file_buffer") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     std::string_view value = "123";
     converter.set_file_buffer(value);
@@ -64,7 +64,7 @@ TEST_CASE("Test the setter and getter of file_buffer") {
     CHECK(file_buff == value);
 }
 
-TEST_CASE("Test the setter and getter of deserialized_data") {
+TEST_CASE("Test setter/getter of deserialized_data") {
     constexpr auto const& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
 
     std::string_view const dataset_name = "input";
