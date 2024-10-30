@@ -25,7 +25,7 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
-            ExperimentalFeatures experimental_feature;
+            auto experimental_feature = ExperimentalFeatures::experimental_features_disabled;
             switch (experimental_features) {
             case PGM_IO_experimental_features_disabled:
                 experimental_feature = ExperimentalFeatures::experimental_features_disabled;
