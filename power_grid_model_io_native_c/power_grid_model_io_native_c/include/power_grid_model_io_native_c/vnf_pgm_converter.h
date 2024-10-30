@@ -19,7 +19,8 @@ extern "C" {
  * @return The pointer to a PGM_IO_VnfConverter instance. The instance must be freed by
  * PGM_IO_destroy_vnf_converter.
  */
-PGM_IO_API PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char* file_buffer);
+PGM_IO_API PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
+                                                            PGM_IO_ExperimentalFeatures experimental_features);
 
 /**
  * @brief Retrieve the transformed input data from .vnf format to PGM format
