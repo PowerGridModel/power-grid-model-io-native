@@ -27,6 +27,18 @@ class HandlePtr(c_void_p):
     """
 
 
+class WritableDatasetPtr(c_void_p):
+    """
+    Pointer to writable dataset
+    """
+
+
+class PgmVnfConverterPtr(c_void_p):
+    """
+    Pointer to serializer
+    """
+
+
 def _load_core() -> CDLL:
     """
 
@@ -137,6 +149,18 @@ class PowerGridModelIoCore:
 
     @make_c_binding
     def error_message(self) -> str:  # type: ignore[empty-body]
+        pass  # pragma: no cover
+
+    @make_c_binding
+    def create_vnf_converter(self, data: str, experimental_features: int) -> PgmVnfConverterPtr:
+        pass  # pragma: no cover
+
+    @make_c_binding
+    def get_pgm_input_data(self, pgmvnfconverter: PgmVnfConverterPtr) -> str:
+        pass  # pragma: no cover
+
+    @make_c_binding
+    def destroy_vnf_converter(self, pgmvnfconverter: PgmVnfConverterPtr) -> None:
         pass  # pragma: no cover
 
 

@@ -44,7 +44,7 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
         PGM_IO_regular_error);
 }
 
-char const* PGM_IO_get_vnf_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr) {
+char const* PGM_IO_get_pgm_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr) {
     return call_with_catch(
         handle, [converter_ptr] { return convert_input_wrapper(converter_ptr).c_str(); }, PGM_IO_regular_error);
 }
