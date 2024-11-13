@@ -8,6 +8,7 @@ from power_grid_model_io_native._core.vnf_converter import PgmVnfConverter
 
 
 def test_pgmvnfconverter_constructor_without_experimental_features():
+    """_summary_"""
     with pytest.raises(Exception) as e:
         _ = PgmVnfConverter("", 0)
     print(f"Raised exception: {e.type} - {e.value}")

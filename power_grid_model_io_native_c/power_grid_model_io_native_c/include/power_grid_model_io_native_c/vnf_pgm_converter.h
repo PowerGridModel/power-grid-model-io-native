@@ -28,7 +28,8 @@ PGM_IO_API PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handl
  * @param converter_ptr A pointer to a PGM_IO_VnfConverter instace.
  * @return The pointer to the json string instance that holds data in PGM format.
  */
-PGM_IO_API char const* PGM_IO_get_pgm_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr);
+PGM_IO_API char const* PGM_IO_vnf_pgm_converter_get_input_data(PGM_IO_Handle* handle,
+                                                               PGM_IO_VnfConverter* converter_ptr);
 
 /**
  * @brief Destroy the PGM_IO_VnfConverter and free up the memory that was dedicated to it.
