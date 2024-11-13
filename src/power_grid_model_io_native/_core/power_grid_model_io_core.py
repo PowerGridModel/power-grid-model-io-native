@@ -152,15 +152,15 @@ class PowerGridModelIoCore:
         pass  # pragma: no cover
 
     @make_c_binding
-    def create_vnf_converter(self, data: str, experimental_features: int) -> PgmVnfConverterPtr:
+    def create_vnf_converter(self, data: str, experimental_features: int) -> PgmVnfConverterPtr:  # type: ignore[empty-body]
         pass  # pragma: no cover
 
     @make_c_binding
-    def get_pgm_input_data(self, pgmvnfconverter: PgmVnfConverterPtr) -> str:
+    def get_pgm_input_data(self, pgmvnfconverter: PgmVnfConverterPtr) -> str:  # type: ignore[empty-body]
         pass  # pragma: no cover
 
     @make_c_binding
-    def destroy_vnf_converter(self, pgmvnfconverter: PgmVnfConverterPtr) -> None:
+    def destroy_vnf_converter(self, pgmvnfconverter: PgmVnfConverterPtr) -> None:  # type: ignore[empty-body]
         pass  # pragma: no cover
 
 

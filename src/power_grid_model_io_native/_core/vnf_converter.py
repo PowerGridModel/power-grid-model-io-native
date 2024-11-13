@@ -32,3 +32,4 @@ class PgmVnfConverter:
         pgm_data = pgmic.get_pgm_input_data(self._pgm_vnf_converter)
         assert_no_error()
         self._serialized_data = pgm_data
+        return self._serialized_data

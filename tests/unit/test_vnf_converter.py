@@ -13,9 +13,16 @@ def test_pgmvnfconverter_constructor_without_experimental_features():
     print(f"Raised exception: {e.type} - {e.value}")
 
 
-# def test_pgmvnfconverter_constructor_with_experimental_features():
-#     converter = PgmVnfConverter("", 1)
-# assert converter is not None
+def test_pgmvnfconverter_constructor_with_experimental_features():
+    converter = PgmVnfConverter("", 1)
+    assert hasattr(converter, "_pgm_vnf_converter")
+
+
+def test_get_pgm_input_data():
+    converter = PgmVnfConverter("", 1)
+    result_buffer = converter.get_pgm_input_data()
+    json_output = '({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})'
+    assert result_buffer == json_output
 
 
 def test_nothing():
