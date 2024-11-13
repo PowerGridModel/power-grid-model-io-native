@@ -26,13 +26,6 @@ class HandlePtr(c_void_p):
     Pointer to handle
     """
 
-
-class WritableDatasetPtr(c_void_p):
-    """
-    Pointer to writable dataset
-    """
-
-
 class PgmVnfConverterPtr(c_void_p):
     """
     Pointer to serializer
