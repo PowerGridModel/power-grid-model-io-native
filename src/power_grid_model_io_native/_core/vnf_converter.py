@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
+"""
+Power grid model io native converter for vnf files
+"""
+
 from power_grid_model.core.error_handling import assert_no_error
 
 from power_grid_model_io_native._core.power_grid_model_io_core import PgmVnfConverterPtr, pgm_io_core as pgmic

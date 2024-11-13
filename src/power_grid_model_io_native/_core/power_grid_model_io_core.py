@@ -29,7 +29,7 @@ class HandlePtr(c_void_p):
 
 class PgmVnfConverterPtr(c_void_p):
     """
-    Pointer to serializer
+    Pointer to PgmVnfConverter
     """
 
 
@@ -146,7 +146,9 @@ class PowerGridModelIoCore:
         pass  # pragma: no cover
 
     @make_c_binding
-    def create_vnf_converter(self, data: str, experimental_features: int) -> PgmVnfConverterPtr:  # type: ignore[empty-body]
+    def create_vnf_converter(
+        self, data: str, experimental_features: int
+    ) -> PgmVnfConverterPtr:  # type: ignore[empty-body]
         pass  # pragma: no cover
 
     @make_c_binding
