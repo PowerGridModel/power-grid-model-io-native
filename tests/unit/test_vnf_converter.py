@@ -8,24 +8,21 @@ from power_grid_model_io_native._core.vnf_converter import PgmVnfConverter
 
 
 def test_pgmvnfconverter_constructor_without_experimental_features():
-    """_summary_"""
+    """A test case for creating pgmvnfconverter without experimental features"""
     with pytest.raises(Exception) as e:
         _ = PgmVnfConverter("", 0)
     print(f"Raised exception: {e.type} - {e.value}")
 
 
 def test_pgmvnfconverter_constructor_with_experimental_features():
+    """A test case for creating pgmvnfconverter with experimental features"""
     converter = PgmVnfConverter("", 1)
     assert hasattr(converter, "_pgm_vnf_converter")
 
 
 def test_get_pgm_input_data():
+    """A test case for obtaining the data in PGM format from pgmvnfconverter"""
     converter = PgmVnfConverter("", 1)
     result_buffer = converter.get_pgm_input_data()
     json_output = '({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})'
     assert result_buffer == json_output
-
-
-def test_nothing():
-    assert pgm_io_core.error_code() == 0
-    assert pgm_io_core.error_message() == ""
