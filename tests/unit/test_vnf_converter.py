@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MPL-2.0
 import pytest
 
-from power_grid_model_io_native._core.power_grid_model_io_core import pgm_io_core
+# from power_grid_model_io_native._core.power_grid_model_io_core import pgm_io_core
 from power_grid_model_io_native._core.vnf_converter import PgmVnfConverter
 
 
