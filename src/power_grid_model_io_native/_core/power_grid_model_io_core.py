@@ -40,9 +40,9 @@ def _load_core() -> CDLL:
 
     """
     if platform.system() == "Windows":
-        dll_file = "_power_grid_model_io_core.dll"
+        dll_file = "power_grid_model_io_core.dll"
     else:
-        dll_file = "_power_grid_model_io_core.so"
+        dll_file = "power_grid_model_io_core.so"
     cdll = CDLL(str(Path(__file__).parent / dll_file))
     # assign return types
     # handle

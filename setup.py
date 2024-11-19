@@ -178,6 +178,7 @@ def generate_build_ext(pkg_dir: Path, pkg_name: str):
     libraries: list[str] = []
     sources = [
         str(pgm_io_c / pgm_io_c / "src" / "handle.cpp"),
+        str(pgm_io_c / pgm_io_c / "src" / "vnf_pgm_converter.cpp"),
     ]
     # macro
     define_macros = [
