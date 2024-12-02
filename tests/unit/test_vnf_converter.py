@@ -17,7 +17,7 @@ def test_pgmvnfconverter_constructor_without_experimental_features():
 def test_pgmvnfconverter_constructor_with_experimental_features():
     """A test case for creating pgmvnfconverter with experimental features"""
     converter = PgmVnfConverter("", 1)
-    result_buffer = converter.get_pgm_input_data()
+    _ = converter.get_pgm_input_data()
 
 
 def test_get_pgm_input_data():
