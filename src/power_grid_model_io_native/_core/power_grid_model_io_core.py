@@ -9,7 +9,7 @@ from ctypes import CDLL, c_double, c_size_t, c_void_p
 from inspect import signature
 from itertools import chain
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable
 
 from power_grid_model._core.power_grid_core import CharPtr, CStr, IdxC
 
@@ -40,9 +40,9 @@ def _load_core() -> CDLL:
 
     """
     if platform.system() == "Windows":
-        dll_file = "power_grid_model_io_core.dll"
+        dll_file = "_power_grid_model_io_core.dll"
     else:
-        dll_file = "power_grid_model_io_core.so"
+        dll_file = "_power_grid_model_io_core.so"
     cdll = CDLL(str(Path(__file__).parent / dll_file))
     # assign return types
     # handle
@@ -118,9 +118,9 @@ class PowerGridModelIoCore:
     """
 
     _handle: HandlePtr
-    _instance: Optional["PowerGridModelIoCore"] = None
+    _instance: "PowerGridModelIoCore | None" = None
 
-    # singleton of power grid core
+    # singleton of power grid model io core
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)

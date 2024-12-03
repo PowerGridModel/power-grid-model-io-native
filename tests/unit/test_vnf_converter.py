@@ -4,20 +4,20 @@
 
 import pytest
 
+from power_grid_model_io_native._core.error_handling import InvalidArguments, assert_no_error
 from power_grid_model_io_native._core.vnf_converter import PgmVnfConverter
 
 
 def test_pgmvnfconverter_constructor_without_experimental_features():
     """A test case for creating pgmvnfconverter without experimental features"""
-    converter = PgmVnfConverter("", 0)
-    with pytest.raises(OSError):
-        _ = converter.get_pgm_input_data()
+    with pytest.raises(InvalidArguments):
+        _ = PgmVnfConverter("", 0)
 
 
 def test_pgmvnfconverter_constructor_with_experimental_features():
     """A test case for creating pgmvnfconverter with experimental features"""
-    converter = PgmVnfConverter("", 1)
-    _ = converter.get_pgm_input_data()
+    _ = PgmVnfConverter("", 1)
+    assert_no_error()
 
 
 def test_get_pgm_input_data():

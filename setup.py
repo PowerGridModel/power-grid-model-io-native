@@ -214,7 +214,7 @@ def generate_build_ext(pkg_dir: Path, pkg_name: str):
     # list of extensions
     exts = [
         CTypesExtension(
-            name="power_grid_model_io_native._core.power_grid_model_io_core",
+            name="power_grid_model_io_native._core._power_grid_model_io_core",
             sources=sources,
             include_dirs=include_dirs,
             library_dirs=library_dirs,
