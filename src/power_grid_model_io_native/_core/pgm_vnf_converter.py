@@ -23,14 +23,14 @@ class PgmVnfConverter:
     ):
         instance = super().__new__(cls)
 
-        instance._pgm_vnf_converter = pgmic.create_vnf_converter(string_buffer, experimental_feature)
+        instance._pgm_vnf_converter = pgmic.create_pgm_vnf_converter(string_buffer, experimental_feature)
         assert_no_error()
 
         return instance
 
     def __del__(self):
         if hasattr(self, "_pgm_vnf_converter"):
-            pgmic.destroy_vnf_converter(self._pgm_vnf_converter)
+            pgmic.destroy_pgm_vnf_converter(self._pgm_vnf_converter)
 
     def get_pgm_input_data(self):
         """A function of the PgmVnfConverter class which will convert and return the data in PGM format
@@ -38,7 +38,7 @@ class PgmVnfConverter:
         Returns:
             str: json data in PGM format
         """
-        pgm_data = pgmic.vnf_pgm_converter_get_input_data(self._pgm_vnf_converter)
+        pgm_data = pgmic.pgm_vnf_converter_get_input_data(self._pgm_vnf_converter)
         assert_no_error()
         self._serialized_data = pgm_data
         return self._serialized_data

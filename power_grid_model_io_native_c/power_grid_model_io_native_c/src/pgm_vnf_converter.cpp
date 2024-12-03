@@ -5,22 +5,22 @@
 #define PGM_IO_DLL_EXPORTS
 
 #include <power_grid_model_io_native/common/enum.hpp>
-#include <power_grid_model_io_native/vnf_converter/vnf_pgm_converter.hpp>
+#include <power_grid_model_io_native/pgm_vnf_converter/pgm_vnf_converter.hpp>
 
 #include "handle.hpp"
 #include <power_grid_model_io_native_c/basics.h>
-#include <power_grid_model_io_native_c/vnf_pgm_converter.h>
+#include <power_grid_model_io_native_c/pgm_vnf_converter.h>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/common/exception.hpp>
 
 namespace pgm_io = power_grid_model_io_native;
 
-struct PGM_IO_VnfPgmConverter : public pgm_io::PgmVnfConverter {
+struct PGM_IO_PgmVnfConverter : public pgm_io::PgmVnfConverter {
     using PgmVnfConverter::PgmVnfConverter;
 };
 
-PGM_IO_VnfPgmConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
+PGM_IO_PgmVnfConverter* PGM_IO_create_pgm_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
                                                     PGM_IO_ExperimentalFeatures experimental_features) {
     return call_with_catch(
         handle,
@@ -37,16 +37,16 @@ PGM_IO_VnfPgmConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char 
             default:
                 throw power_grid_model::MissingCaseForEnumError{"PGM_IO_create_vnf_converter", experimental_features};
             }
-            auto* converter = new PGM_IO_VnfPgmConverter(file_buffer, experimental_feature);
+            auto* converter = new PGM_IO_PgmVnfConverter(file_buffer, experimental_feature);
             parse_vnf_file_wrapper(converter);
             return converter;
         },
         PGM_IO_regular_error);
 }
 
-char const* PGM_IO_vnf_pgm_converter_get_input_data(PGM_IO_Handle* handle, PGM_IO_VnfPgmConverter* converter_ptr) {
+char const* PGM_IO_pgm_vnf_converter_get_input_data(PGM_IO_Handle* handle, PGM_IO_PgmVnfConverter* converter_ptr) {
     return call_with_catch(
         handle, [converter_ptr] { return convert_input_wrapper(converter_ptr).c_str(); }, PGM_IO_regular_error);
 }
 
-void PGM_IO_destroy_vnf_converter(PGM_IO_VnfPgmConverter* converter_ptr) { delete converter_ptr; }
+void PGM_IO_destroy_pgm_vnf_converter(PGM_IO_PgmVnfConverter* converter_ptr) { delete converter_ptr; }
