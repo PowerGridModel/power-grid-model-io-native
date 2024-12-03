@@ -19,9 +19,9 @@ namespace pgm_io = power_grid_model_io_native;
 struct PGM_IO_PgmVnfConverter : public pgm_io::PgmVnfConverter {
     using PgmVnfConverter::PgmVnfConverter;
 };
-
+//
 PGM_IO_PgmVnfConverter* PGM_IO_create_pgm_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
-                                                    PGM_IO_ExperimentalFeatures experimental_features) {
+                                                        PGM_IO_ExperimentalFeatures experimental_features) {
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {

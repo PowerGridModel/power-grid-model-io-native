@@ -20,10 +20,10 @@ extern "C" {
  * PGM_IO_destroy_vnf_converter.
  */
 PGM_IO_API PGM_IO_PgmVnfConverter* PGM_IO_create_pgm_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
-                                                               PGM_IO_ExperimentalFeatures experimental_features);
+                                                                   PGM_IO_ExperimentalFeatures experimental_features);
 
 /**
- * @brief Retrieve the transformed input data from .vnf format to PGM format
+ * @brief Retrieve the transformed input data from .vnf format to PGM format.
  * @param handle
  * @param converter_ptr A pointer to a PGM_IO_PgmVnfConverter instace.
  * @return The pointer to the json string instance that holds data in PGM format.
