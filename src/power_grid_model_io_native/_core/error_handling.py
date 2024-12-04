@@ -7,26 +7,24 @@ Error handling
 """
 
 from power_grid_model._core.error_handling import (
-    _ERROR_MESSAGE_PATTERNS,
     PGM_NO_ERROR,
     PGM_REGULAR_ERROR,
     PGM_SERIALIZATION_ERROR,
     VALIDATOR_MSG,
     PowerGridBatchError,
-    PowerGridError,
     PowerGridSerializationError,
+    _interpret_error,
 )
 
 from power_grid_model_io_native._core.power_grid_model_io_core import pgm_io_core as pgmic
 
+# def _interpret_error_pgm_io(message: str, decode_error: bool = True) -> PowerGridError:
+#     if decode_error:
+#         for pattern, type_ in _ERROR_MESSAGE_PATTERNS.items():
+#             if pattern.search(message) is not None:
+#                 return type_(message)
 
-def _interpret_error(message: str, decode_error: bool = True) -> PowerGridError:
-    if decode_error:
-        for pattern, type_ in _ERROR_MESSAGE_PATTERNS.items():
-            if pattern.search(message) is not None:
-                return type_(message)
-
-    return PowerGridError(message)
+#     return PowerGridError(message)
 
 
 def find_error(batch_size: int = 1, decode_error: bool = True) -> RuntimeError | None:
