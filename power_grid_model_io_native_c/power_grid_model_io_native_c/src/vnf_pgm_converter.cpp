@@ -16,12 +16,12 @@
 
 namespace pgm_io = power_grid_model_io_native;
 
-struct PGM_IO_VnfConverter : public pgm_io::PgmVnfConverter {
+struct PGM_IO_VnfPgmConverter : public pgm_io::PgmVnfConverter {
     using PgmVnfConverter::PgmVnfConverter;
 };
 
-PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
-                                                 PGM_IO_ExperimentalFeatures experimental_features) {
+PGM_IO_VnfPgmConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
+                                                    PGM_IO_ExperimentalFeatures experimental_features) {
     return call_with_catch(
         handle,
         [file_buffer, experimental_features] {
@@ -37,16 +37,16 @@ PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char con
             default:
                 throw power_grid_model::MissingCaseForEnumError{"PGM_IO_create_vnf_converter", experimental_features};
             }
-            auto* converter = new PGM_IO_VnfConverter(file_buffer, experimental_feature);
+            auto* converter = new PGM_IO_VnfPgmConverter(file_buffer, experimental_feature);
             parse_vnf_file_wrapper(converter);
             return converter;
         },
         PGM_IO_regular_error);
 }
 
-char const* PGM_IO_get_vnf_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr) {
+char const* PGM_IO_vnf_pgm_converter_get_input_data(PGM_IO_Handle* handle, PGM_IO_VnfPgmConverter* converter_ptr) {
     return call_with_catch(
         handle, [converter_ptr] { return convert_input_wrapper(converter_ptr).c_str(); }, PGM_IO_regular_error);
 }
 
-void PGM_IO_destroy_vnf_converter(PGM_IO_VnfConverter* converter_ptr) { delete converter_ptr; }
+void PGM_IO_destroy_vnf_converter(PGM_IO_VnfPgmConverter* converter_ptr) { delete converter_ptr; }

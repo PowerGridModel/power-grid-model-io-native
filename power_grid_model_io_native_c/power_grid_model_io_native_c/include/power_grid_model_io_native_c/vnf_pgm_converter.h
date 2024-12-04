@@ -13,29 +13,29 @@ extern "C" {
 #endif
 
 /**
- * @brief Create the PGM_IO_VnfConverter
+ * @brief Create the PGM_IO_VnfPgmConverter
  * @param handle
  * @param file_buffer A pointer to the null-terminated C string.
- * @return The pointer to a PGM_IO_VnfConverter instance. The instance must be freed by
+ * @return The pointer to a PGM_IO_VnfPgmConverter instance. The instance must be freed by
  * PGM_IO_destroy_vnf_converter.
  */
-PGM_IO_API PGM_IO_VnfConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
-                                                            PGM_IO_ExperimentalFeatures experimental_features);
+PGM_IO_API PGM_IO_VnfPgmConverter* PGM_IO_create_vnf_converter(PGM_IO_Handle* handle, char const* file_buffer,
+                                                               PGM_IO_ExperimentalFeatures experimental_features);
 
 /**
  * @brief Retrieve the transformed input data from .vnf format to PGM format
  * @param handle
- * @param converter_ptr A pointer to a PGM_IO_VnfConverter instace.
- * @param dataset A pointer to the const dataset supplied by the user.
- * @return The pointer to the const dataset instance supplied by the user which has been filled in.
+ * @param converter_ptr A pointer to a PGM_IO_VnfPgmConverter instace.
+ * @return The pointer to the json string instance that holds data in PGM format.
  */
-PGM_IO_API char const* PGM_IO_get_vnf_input_data(PGM_IO_Handle* handle, PGM_IO_VnfConverter* converter_ptr);
+PGM_IO_API char const* PGM_IO_vnf_pgm_converter_get_input_data(PGM_IO_Handle* handle,
+                                                               PGM_IO_VnfPgmConverter* converter_ptr);
 
 /**
- * @brief Destroy the PGM_IO_VnfConverter and free up the memory that was dedicated to it.
- * @param converter_ptr A pointer to a PGM_IO_VnfConverter instance.
+ * @brief Destroy the PGM_IO_VnfPgmConverter and free up the memory that was dedicated to it.
+ * @param converter_ptr A pointer to a PGM_IO_VnfPgmConverter instance.
  */
-PGM_IO_API void PGM_IO_destroy_vnf_converter(PGM_IO_VnfConverter* converter_ptr);
+PGM_IO_API void PGM_IO_destroy_vnf_converter(PGM_IO_VnfPgmConverter* converter_ptr);
 
 #ifdef __cplusplus
 }

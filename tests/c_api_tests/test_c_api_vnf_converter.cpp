@@ -45,7 +45,7 @@ TEST_CASE("Test PGM_IO_get_vnf_input_data") {
     auto converter = PGM_IO_create_vnf_converter(handle, "", experimental_feature_flag);
     CHECK(converter != nullptr);
 
-    auto json_result = PGM_IO_get_vnf_input_data(handle, converter);
+    auto json_result = PGM_IO_vnf_pgm_converter_get_input_data(handle, converter);
     std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
     CHECK(json_string == json_result);
 
