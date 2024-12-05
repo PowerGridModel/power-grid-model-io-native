@@ -6,110 +6,25 @@
 Error handling
 """
 
-import re
-
-from power_grid_model.errors import (
-    AutomaticTapCalculationError,
-    ConflictID,
-    ConflictVoltage,
-    IDNotFound,
-    IDWrongType,
-    InvalidArguments,
-    InvalidBranch,
-    InvalidBranch3,
-    InvalidCalculationMethod,
-    InvalidMeasuredObject,
-    InvalidRegulatedObject,
-    InvalidShortCircuitPhaseOrType,
-    InvalidTransformerClock,
-    IterationDiverge,
-    MaxIterationReached,
-    MissingCaseForEnumError,
-    NotObservableError,
+from power_grid_model._core.error_handling import (
+    PGM_NO_ERROR,
+    PGM_REGULAR_ERROR,
+    PGM_SERIALIZATION_ERROR,
+    VALIDATOR_MSG,
     PowerGridBatchError,
-    PowerGridDatasetError,
-    PowerGridError,
-    PowerGridNotImplementedError,
     PowerGridSerializationError,
-    PowerGridUnreachableHitError,
-    SparseMatrixError,
+    _interpret_error,
 )
 
 from power_grid_model_io_native._core.power_grid_model_io_core import pgm_io_core as pgmic
 
-VALIDATOR_MSG = "\nTry validate_input_data() or validate_batch_data() to validate your data.\n"
-# error codes
-PGM_NO_ERROR = 0
-PGM_REGULAR_ERROR = 1
-PGM_BATCH_ERROR = 2
-PGM_SERIALIZATION_ERROR = 3
+# def _interpret_error_pgm_io(message: str, decode_error: bool = True) -> PowerGridError:
+#     if decode_error:
+#         for pattern, type_ in _ERROR_MESSAGE_PATTERNS.items():
+#             if pattern.search(message) is not None:
+#                 return type_(message)
 
-_MISSING_CASE_FOR_ENUM_RE = re.compile(r" is not implemented for (.+) #(-?\d+)!\n")
-_INVALID_ARGUMENTS_RE = re.compile(r" is not implemented for ")  # multiple different flavors
-_CONFLICT_VOLTAGE_RE = re.compile(
-    r"Conflicting voltage for line (-?\d+)\n voltage at from node (-?\d+) is (.*)\n"
-    r" voltage at to node (-?\d+) is (.*)\n"
-)
-_INVALID_BRANCH_RE = re.compile(r"Branch (-?\d+) has the same from- and to-node (-?\d+),\n This is not allowed!\n")
-_INVALID_BRANCH3_RE = re.compile(
-    r"Branch3 (-?\d+) is connected to the same node at least twice. Node 1\/2\/3: (-?\d+)\/(-?\d+)\/(-?\d+),\n"
-    r" This is not allowed!\n"
-)
-_INVALID_TRANSFORMER_CLOCK_RE = re.compile(r"Invalid clock for transformer (-?\d+), clock (-?\d+)\n")
-_SPARSE_MATRIX_ERROR_RE = re.compile(r"Sparse matrix error")  # multiple different flavors
-_NOT_OBSERVABLE_ERROR_RE = re.compile(r"Not enough measurements available for state estimation.\n")
-_ITERATION_DIVERGE_RE = re.compile(r"Iteration failed to converge")  # potentially multiple different flavors
-_MAX_ITERATION_REACHED_RE = re.compile(r"Maximum number of iterations reached")
-_CONFLICT_ID_RE = re.compile(r"Conflicting id detected: (-?\d+)\n")
-_ID_NOT_FOUND_RE = re.compile(r"The id cannot be found: (-?\d+)\n")
-_INVALID_MEASURED_OBJECT_RE = re.compile(r"(\w+) measurement is not supported for object of type (\w+)")
-_INVALID_REGULATED_OBJECT_RE = re.compile(
-    r"(\w+) regulator is not supported for object "
-)  # potentially multiple different flavors
-_AUTOMATIC_TAP_CALCULATION_ERROR_RE = re.compile(
-    r"Automatic tap changing regulator with tap_side at LV side is not supported. Found at id (-?\d+)\n"
-)
-_ID_WRONG_TYPE_RE = re.compile(r"Wrong type for object with id (-?\d+)\n")
-_INVALID_CALCULATION_METHOD_RE = re.compile(r"The calculation method is invalid for this calculation!")
-_INVALID_SHORT_CIRCUIT_PHASE_OR_TYPE_RE = re.compile(r"short circuit type")  # multiple different flavors
-_POWER_GRID_DATASET_ERROR_RE = re.compile(r"Dataset error: ")  # multiple different flavors
-_POWER_GRID_UNREACHABLE_HIT_RE = re.compile(r"Unreachable code hit when executing ")  # multiple different flavors
-_POWER_GRID_SEARCH_OPT_INCMPT_RE = re.compile(r"Search method is incompatible with optimization strategy: ")
-_POWER_GRID_NOT_IMPLEMENTED_ERROR_RE = re.compile(r"The functionality is either not supported or not yet implemented!")
-
-_ERROR_MESSAGE_PATTERNS = {
-    _MISSING_CASE_FOR_ENUM_RE: MissingCaseForEnumError,
-    _INVALID_ARGUMENTS_RE: InvalidArguments,
-    _CONFLICT_VOLTAGE_RE: ConflictVoltage,
-    _INVALID_BRANCH_RE: InvalidBranch,
-    _INVALID_BRANCH3_RE: InvalidBranch3,
-    _INVALID_TRANSFORMER_CLOCK_RE: InvalidTransformerClock,
-    _SPARSE_MATRIX_ERROR_RE: SparseMatrixError,
-    _NOT_OBSERVABLE_ERROR_RE: NotObservableError,
-    _ITERATION_DIVERGE_RE: IterationDiverge,
-    _MAX_ITERATION_REACHED_RE: MaxIterationReached,
-    _CONFLICT_ID_RE: ConflictID,
-    _ID_NOT_FOUND_RE: IDNotFound,
-    _INVALID_MEASURED_OBJECT_RE: InvalidMeasuredObject,
-    _INVALID_REGULATED_OBJECT_RE: InvalidRegulatedObject,
-    _AUTOMATIC_TAP_CALCULATION_ERROR_RE: AutomaticTapCalculationError,
-    _ID_WRONG_TYPE_RE: IDWrongType,
-    _INVALID_CALCULATION_METHOD_RE: InvalidCalculationMethod,
-    _INVALID_SHORT_CIRCUIT_PHASE_OR_TYPE_RE: InvalidShortCircuitPhaseOrType,
-    _POWER_GRID_DATASET_ERROR_RE: PowerGridDatasetError,
-    _POWER_GRID_UNREACHABLE_HIT_RE: PowerGridUnreachableHitError,
-    _POWER_GRID_SEARCH_OPT_INCMPT_RE: PowerGridUnreachableHitError,
-    _POWER_GRID_NOT_IMPLEMENTED_ERROR_RE: PowerGridNotImplementedError,
-}
-
-
-def _interpret_error(message: str, decode_error: bool = True) -> PowerGridError:
-    if decode_error:
-        for pattern, type_ in _ERROR_MESSAGE_PATTERNS.items():
-            if pattern.search(message) is not None:
-                return type_(message)
-
-    return PowerGridError(message)
+#     return PowerGridError(message)
 
 
 def find_error(batch_size: int = 1, decode_error: bool = True) -> RuntimeError | None:
@@ -123,6 +38,7 @@ def find_error(batch_size: int = 1, decode_error: bool = True) -> RuntimeError |
     Returns: error object, can be none
 
     """
+    _ = batch_size
     error_code: int = pgmic.error_code()
     if error_code == PGM_NO_ERROR:
         return None
@@ -130,11 +46,6 @@ def find_error(batch_size: int = 1, decode_error: bool = True) -> RuntimeError |
         error_message = pgmic.error_message()
         error_message += VALIDATOR_MSG
         return _interpret_error(error_message, decode_error=decode_error)
-    if error_code == PGM_BATCH_ERROR:
-        _ = batch_size
-        error_message = "There are errors in the batch calculation." + VALIDATOR_MSG
-        error = PowerGridBatchError(error_message)
-        return error
     if error_code == PGM_SERIALIZATION_ERROR:
         return PowerGridSerializationError(pgmic.error_message())
     return RuntimeError("Unknown error!")
