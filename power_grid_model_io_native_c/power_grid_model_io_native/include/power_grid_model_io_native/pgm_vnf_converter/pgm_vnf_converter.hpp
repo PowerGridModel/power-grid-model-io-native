@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #pragma once
-#ifndef POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
-#define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
+#ifndef POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP
+#define POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP
 
 #include <power_grid_model_io_native/common/common.hpp>
 #include <power_grid_model_io_native/common/enum.hpp>
@@ -178,4 +178,4 @@ inline std::string const& convert_input_wrapper(PgmVnfConverter* obj) {
 
 } // namespace power_grid_model_io_native
 
-#endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PGM_CONVERTER_HPP
+#endif // POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP

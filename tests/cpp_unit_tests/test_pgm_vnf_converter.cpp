@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <power_grid_model_io_native/common/enum.hpp>
-#include <power_grid_model_io_native/vnf_converter/vnf_pgm_converter.hpp>
+#include <power_grid_model_io_native/pgm_vnf_converter/pgm_vnf_converter.hpp>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data.hpp>
