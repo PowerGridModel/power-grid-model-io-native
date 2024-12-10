@@ -65,10 +65,10 @@ typedef int32_t PGM_IO_ID;
 // typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
 
 /**
- * @brief Opaque struct for the VnfConverter class.
+ * @brief Opaque struct for the PgmVnfConverter class.
  *
  */
-typedef struct PGM_IO_VnfPgmConverter PGM_IO_VnfPgmConverter;
+typedef struct PGM_IO_PgmVnfConverter PGM_IO_PgmVnfConverter;
 
 /**
  * @brief Opaque struct for the handle class.
