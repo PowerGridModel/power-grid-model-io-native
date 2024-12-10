@@ -146,7 +146,9 @@ class PowerGridModelIoCore:
         pass  # pragma: no cover
 
     @make_c_binding
-    def create_pgm_vnf_converter(self, data: str, experimental_features: int) -> PgmVnfConverterPtr:  # type: ignore[empty-body]
+    def create_pgm_vnf_converter(  # type: ignore[empty-body]
+        self, data: str, experimental_features: int
+    ) -> PgmVnfConverterPtr:
         pass  # pragma: no cover
 
     @make_c_binding
