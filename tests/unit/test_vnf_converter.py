@@ -6,7 +6,7 @@ import pytest
 from power_grid_model._core.error_handling import InvalidArguments
 
 from power_grid_model_io_native._core.error_handling import assert_no_error
-from power_grid_model_io_native._core.vnf_converter import PgmVnfConverter
+from power_grid_model_io_native._core.pgm_vnf_converter import PgmVnfConverter
 
 
 def test_pgmvnfconverter_constructor_without_experimental_features():
