@@ -17,6 +17,7 @@
 #include <power_grid_model/container.hpp>
 
 #include <iostream>
+#include <regex>
 
 namespace power_grid_model_io_native {
 
@@ -82,6 +83,46 @@ inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFea
 }
 
 inline void PgmVnfConverter::parse_vnf_file() {
+    int nodeid = 0;
+    std::map<std::string, std::map<std::string, std::string>> allNodes;
+    std::string input_string(this->f_file_buffer);
+    std::regex nodesRegex(R"(\[NODE\]([\s\S]*?)\[\])");
+    std::smatch nodesMatch;
+
+    std::regex_search(input_string, nodesMatch, nodesRegex);
+    // std::cout << "Match: " << nodesMatch[1].str() << "\n";
+
+    std::string nodesData = nodesMatch[1].str();
+
+    std::regex nodeRegex(
+        R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?(?:\s+Unom:([\d\.]+))?)#");
+    std::sregex_iterator it(nodesData.begin(), nodesData.end(), nodeRegex);
+    std::sregex_iterator end;
+
+    while (it != end) {
+        std::smatch match = *it;
+
+        std::cout << "GUID: " << match[1].str() << "\n";
+        std::cout << "CreationTime: " << match[2].str() << "\n";
+        std::cout << "Name: " << match[3].str() << "\n";
+        std::cout << "Unom: " << match[4].str() << "\n\n";
+        // float unom_value = std::stof(match[4].str()); should i leave everything as strings and then cast later?
+        std::string name;
+        if (match[3].matched) {
+            name = match[3].str();
+        } else {
+            name = "node" + std::to_string(nodeid + 1);
+        }
+
+        allNodes[name]["ID"] = std::to_string(nodeid);
+        allNodes[name]["Unom"] = match[4].str();
+
+        ++nodeid;
+        ++it;
+    }
+
+    // std::cout << "done"
+    //           << "\n";
     // the function should use a deserializer type structure
     // will be implemented later.
 }

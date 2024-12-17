@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <doctest/doctest.h>
+#include <fstream>
 
 namespace power_grid_model_io_native {
 
@@ -88,6 +89,26 @@ TEST_CASE("Test convert_input_wrapper") {
     CHECK_NOTHROW(convert_input_wrapper(converterPtr));
     auto result = convert_input_wrapper(converterPtr);
     CHECK(json_string == result);
+}
+
+TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
+    // C:/Users/laury/Downloads/vision_validation.vnf
+    std::ifstream f("C:/Users/laury/Downloads/vision_validation.vnf");
+
+    if (!f.is_open()) {
+        std::cerr << "Error opening the file!";
+    }
+
+    std::ostringstream buffer;
+    buffer << f.rdbuf();
+    std::string fileContents = buffer.str();
+
+    // std::cout << fileContents << std::endl;
+
+    auto converter = PgmVnfConverter(fileContents, experimental_features_enabled);
+    PgmVnfConverter* converterPtr = &converter;
+    parse_vnf_file_wrapper(converterPtr);
+    // CHECK_NOTHROW(parse_vnf_file_wrapper(converterPtr));
 }
 
 } // namespace power_grid_model_io_native
