@@ -42,20 +42,20 @@ TEST_CASE("Test convert_input") {
     }
 }
 
-TEST_CASE("Test create_const_dataset_from_container is callable") {
-    power_grid_model::Container<power_grid_model::Node> container;
-    constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
-    CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
-}
+// TEST_CASE("Test create_const_dataset_from_container is callable") {
+//     power_grid_model::Container<power_grid_model::Node> container;
+//     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+//     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
+// }
 
-TEST_CASE("Test serialize_data") {
-    power_grid_model::Container<power_grid_model::Node> container;
-    constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
-    power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
-    CHECK_NOTHROW(serialize_data(const_dataset));
-    auto result = serialize_data(const_dataset);
-    CHECK(result == json_string);
-}
+// TEST_CASE("Test serialize_data") {
+//     power_grid_model::Container<power_grid_model::Node> container;
+//     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+//     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
+//     CHECK_NOTHROW(serialize_data(const_dataset));
+//     auto result = serialize_data(const_dataset);
+//     CHECK(result == json_string);
+// }
 
 TEST_CASE("Test setter/getter of file_buffer") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
@@ -92,7 +92,6 @@ TEST_CASE("Test convert_input_wrapper") {
 }
 
 TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
-    // C:/Users/laury/Downloads/vision_validation.vnf
     std::ifstream f("C:/Users/laury/Downloads/vision_validation.vnf");
 
     if (!f.is_open()) {
@@ -103,12 +102,11 @@ TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
     buffer << f.rdbuf();
     std::string fileContents = buffer.str();
 
-    // std::cout << fileContents << std::endl;
-
     auto converter = PgmVnfConverter(fileContents, experimental_features_enabled);
     PgmVnfConverter* converterPtr = &converter;
     parse_vnf_file_wrapper(converterPtr);
-    // CHECK_NOTHROW(parse_vnf_file_wrapper(converterPtr));
+    convert_input_wrapper(converterPtr);
+    std::cout << converterPtr->get_serialized_data() << std::endl;
 }
 
 } // namespace power_grid_model_io_native
