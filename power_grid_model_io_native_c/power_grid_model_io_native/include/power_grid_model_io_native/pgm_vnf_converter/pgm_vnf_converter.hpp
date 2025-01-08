@@ -88,27 +88,27 @@ inline void PgmVnfConverter::parse_vnf_file() {
     int32_t nodeid = 0;
     std::vector<power_grid_model::NodeInput> allNodes;
     // std::map<std::string, std::vector<std::string>> allNodes;
-    std::string input_string(this->f_file_buffer);
-    std::regex nodesRegex(R"(\[NODE\]([\s\S]*?)\[\])");
+    std::string const input_string(this->f_file_buffer);
+    std::regex const nodesRegex(R"(\[NODE\]([\s\S]*?)\[\])");
     std::smatch nodesMatch;
 
     std::regex_search(input_string, nodesMatch, nodesRegex);
     std::string nodesData = nodesMatch[1].str(); // str view - 0 copy
 
-    std::regex nodeRegex(
+    std::regex const nodeRegex(
         R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?\s+Unom:([\d\.]+))#");
 
     std::sregex_iterator it(nodesData.begin(), nodesData.end(), nodeRegex);
-    std::sregex_iterator end;
+    std::sregex_iterator const end;
 
     while (it != end) {
-        std::smatch match = *it;
+        std::smatch const match = *it;
 
         std::cout << "GUID: " << match[1].str() << "\n";
         std::cout << "CreationTime: " << match[2].str() << "\n";
         std::cout << "Name: " << match[3].str() << "\n";
         std::cout << "Unom: " << match[4].str() << "\n\n";
-        double unom = std::stod(match[4].str());
+        double const unom = std::stod(match[4].str());
 
         allNodes.emplace_back(nodeid, unom);
 
