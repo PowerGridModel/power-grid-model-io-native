@@ -93,10 +93,11 @@ inline void PgmVnfConverter::parse_vnf_file() {
     std::smatch nodesMatch;
 
     std::regex_search(input_string, nodesMatch, nodesRegex);
-    std::string nodesData = nodesMatch[1].str();
+    std::string nodesData = nodesMatch[1].str(); // str view - 0 copy
 
     std::regex nodeRegex(
-        R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?(?:\s+Unom:([\d\.]+))?)#");
+        R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?\s+Unom:([\d\.]+))#");
+
     std::sregex_iterator it(nodesData.begin(), nodesData.end(), nodeRegex);
     std::sregex_iterator end;
 
