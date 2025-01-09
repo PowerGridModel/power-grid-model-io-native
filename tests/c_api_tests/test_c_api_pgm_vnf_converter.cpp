@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#
-
 #include <power_grid_model_io_native_c/basics.h>
 #include <power_grid_model_io_native_c/handle.h>
 #include <power_grid_model_io_native_c/pgm_vnf_converter.h>
 
 #include <doctest/doctest.h>
 
+#include <ostream> // NOLINT(misc-include-cleaner) // Windows Clang-Tidy issue
 #include <string_view>
 
 namespace power_grid_model_io_native {

@@ -8,10 +8,13 @@
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
 #include <power_grid_model/common/exception.hpp>
+#include <power_grid_model/component/node.hpp>
+#include <power_grid_model/container.hpp>
 
 #include <doctest/doctest.h>
 
-#include <sstream>
+#include <ostream> // NOLINT(misc-include-cleaner) // Windows Clang-Tidy issue
+#include <string>
 #include <string_view>
 
 namespace power_grid_model_io_native {
@@ -44,13 +47,13 @@ TEST_CASE("Test convert_input") {
 }
 
 TEST_CASE("Test create_const_dataset_from_container is callable") {
-    power_grid_model::Container<power_grid_model::Node> container;
+    power_grid_model::Container<power_grid_model::Node> const container{};
     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
 }
 
 TEST_CASE("Test serialize_data") {
-    power_grid_model::Container<power_grid_model::Node> container;
+    power_grid_model::Container<power_grid_model::Node> const container{};
     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
     CHECK_NOTHROW(serialize_data(const_dataset));
