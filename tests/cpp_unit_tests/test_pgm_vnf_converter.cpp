@@ -47,13 +47,13 @@ TEST_CASE("Test convert_input") {
 }
 
 // TEST_CASE("Test create_const_dataset_from_container is callable") {
-//     power_grid_model::Container<power_grid_model::Node> container;
+//     power_grid_model::Container<power_grid_model::Node> const container{};
 //     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
 //     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
 // }
 
 // TEST_CASE("Test serialize_data") {
-//     power_grid_model::Container<power_grid_model::Node> container;
+//     power_grid_model::Container<power_grid_model::Node> const container{};
 //     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
 //     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
 //     CHECK_NOTHROW(serialize_data(const_dataset));

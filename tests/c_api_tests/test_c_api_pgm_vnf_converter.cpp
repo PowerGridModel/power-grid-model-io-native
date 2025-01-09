@@ -8,7 +8,7 @@
 
 #include <doctest/doctest.h>
 
-#include <ostream>  // NOLINT(misc-include-cleaner)  // MSVC CI issue
+#include <ostream> // NOLINT(misc-include-cleaner) // Windows Clang-Tidy issue
 #include <string_view>
 
 namespace power_grid_model_io_native {
