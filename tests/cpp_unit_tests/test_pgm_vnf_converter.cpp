@@ -6,17 +6,19 @@
 #include <power_grid_model_io_native/pgm_vnf_converter/pgm_vnf_converter.hpp>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
-#include <power_grid_model/auxiliary/meta_data.hpp>
-#include <power_grid_model/auxiliary/meta_gen/gen_getters.hpp>
+#include <power_grid_model/auxiliary/meta_data_gen.hpp>
+#include <power_grid_model/common/exception.hpp>
 
-#include <cstring>
 #include <doctest/doctest.h>
+
+#include <sstream>
+#include <string_view>
 
 namespace power_grid_model_io_native {
 
 using enum ExperimentalFeatures;
 
-std::string_view json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
+std::string_view const json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
 
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features") {
@@ -58,7 +60,7 @@ TEST_CASE("Test serialize_data") {
 
 TEST_CASE("Test setter/getter of file_buffer") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
-    std::string_view value = "123";
+    std::string_view const value = "123";
     converter.set_file_buffer(value);
     auto file_buff = converter.get_file_buffer();
     CHECK(file_buff == value);
@@ -72,7 +74,7 @@ TEST_CASE("Test setter/getter of deserialized_data") {
 
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     converter.set_deserialized_dataset(&writable_dataset);
-    auto writable_dataset_after_getter = converter.get_deserialized_dataset();
+    auto* const writable_dataset_after_getter = converter.get_deserialized_dataset();
     CHECK(&writable_dataset == writable_dataset_after_getter);
 }
 
