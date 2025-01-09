@@ -65,10 +65,10 @@ typedef int32_t PGM_IO_ID;
 // typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
 
 /**
- * @brief Opaque struct for the VnfConverter class.
+ * @brief Opaque struct for the PgmVnfConverter class.
  *
  */
-typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
+typedef struct PGM_IO_PgmVnfConverter PGM_IO_PgmVnfConverter;
 
 /**
  * @brief Opaque struct for the handle class.
@@ -79,6 +79,8 @@ typedef struct PGM_IO_VnfConverter PGM_IO_VnfConverter;
 typedef struct PGM_IO_Handle PGM_IO_Handle;
 
 // NOLINTEND(modernize-use-using)
+
+// NOLINTBEGIN(performance-enum-size)
 
 /**
  * @brief Enumeration of error codes.
@@ -104,6 +106,8 @@ enum PGM_IO_ExperimentalFeatures {
     PGM_IO_experimental_features_disabled = 0, /**< disable experimental features */
     PGM_IO_experimental_features_enabled = 1,  /**< enable experimental features */
 };
+
+// NOLINTEND(performance-enum-size)
 
 #ifdef __cplusplus
 }

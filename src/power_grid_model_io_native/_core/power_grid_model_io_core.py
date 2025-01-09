@@ -9,7 +9,7 @@ from ctypes import CDLL, c_double, c_size_t, c_void_p
 from inspect import signature
 from itertools import chain
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable
 
 from power_grid_model._core.power_grid_core import CharPtr, CStr, IdxC
 
@@ -24,6 +24,12 @@ _ARGS_TYPE_MAPPING = {bytes: CharPtr, str: CStr, int: IdxC, float: c_double}
 class HandlePtr(c_void_p):
     """
     Pointer to handle
+    """
+
+
+class PgmVnfConverterPtr(c_void_p):
+    """
+    Pointer to PgmVnfConverter
     """
 
 
@@ -112,9 +118,9 @@ class PowerGridModelIoCore:
     """
 
     _handle: HandlePtr
-    _instance: Optional["PowerGridModelIoCore"] = None
+    _instance: "PowerGridModelIoCore | None" = None
 
-    # singleton of power grid core
+    # singleton of power grid model io core
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)
@@ -137,6 +143,20 @@ class PowerGridModelIoCore:
 
     @make_c_binding
     def error_message(self) -> str:  # type: ignore[empty-body]
+        pass  # pragma: no cover
+
+    @make_c_binding
+    def create_pgm_vnf_converter(  # type: ignore[empty-body]
+        self, data: str, experimental_features: int
+    ) -> PgmVnfConverterPtr:
+        pass  # pragma: no cover
+
+    @make_c_binding
+    def pgm_vnf_converter_get_input_data(self, pgmvnfconverter: PgmVnfConverterPtr) -> str:  # type: ignore[empty-body]
+        pass  # pragma: no cover
+
+    @make_c_binding
+    def destroy_pgm_vnf_converter(self, pgmvnfconverter: PgmVnfConverterPtr) -> None:  # type: ignore[empty-body]
         pass  # pragma: no cover
 
 

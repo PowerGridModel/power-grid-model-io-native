@@ -5,7 +5,7 @@
 set(PROJECT_SOURCES
     "test_c_api.cpp"
     "test_entry_point.cpp"
-    "test_c_api_vnf_converter.cpp"
+    "test_c_api_pgm_vnf_converter.cpp"
 )
 
 add_executable(power_grid_model_io_native_c_api_tests ${PROJECT_SOURCES})
