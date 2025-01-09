@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
+// NOLINTBEGIN(misc-include-cleaner)
+
 #include "c_api_cpp_handle.hpp"
 #include "power_grid_model_io_native_c.h"
 
 #include <doctest/doctest.h>
-
-#include <memory>
-
 namespace power_grid_model_io_native {
 
 TEST_CASE("C API") {
@@ -19,3 +18,5 @@ TEST_CASE("C API") {
 }
 
 } // namespace power_grid_model_io_native
+
+// NOLINTEND(misc-include-cleaner)
