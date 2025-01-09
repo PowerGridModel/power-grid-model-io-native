@@ -53,7 +53,7 @@ TEST_CASE("Test PGM_IO_get_vnf_input_data") {
 }
 
 namespace {
-auto basic_vision_9_7_vnf_file = R"vnf(V9.7
+auto const* basic_vision_9_7_vnf_file = R"vnf(V9.7
 NETWORK
 
 [PROPERTIES]
