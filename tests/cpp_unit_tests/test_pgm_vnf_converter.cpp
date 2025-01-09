@@ -96,7 +96,7 @@ TEST_CASE("Test convert_input_wrapper") {
 }
 
 TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
-    std::ifstream f("C:/Users/laury/Downloads/vision_validation.vnf");
+    std::ifstream const f("C:/Users/laury/Downloads/vision_validation.vnf");
 
     if (!f.is_open()) {
         std::cerr << "Error opening the file!";
