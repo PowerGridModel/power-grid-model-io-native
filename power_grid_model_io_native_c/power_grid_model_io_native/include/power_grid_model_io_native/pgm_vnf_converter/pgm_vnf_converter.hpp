@@ -85,7 +85,7 @@ inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFea
 }
 
 inline void PgmVnfConverter::parse_vnf_file() {
-    int32_t nodeid = 0;
+    pgm::ID nodeid = 0;
     std::vector<power_grid_model::NodeInput> allNodes;
     // std::map<std::string, std::vector<std::string>> allNodes;
     std::string const input_string(this->f_file_buffer);
