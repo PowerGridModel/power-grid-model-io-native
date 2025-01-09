@@ -5,10 +5,9 @@
 #define PGM_IO_DLL_EXPORTS
 
 #include "power_grid_model_io_native_c/handle.h"
+#include "power_grid_model_io_native_c/basics.h"
 
-#include "handle.hpp"
-
-#include <algorithm>
+#include "handle.hpp" // NOLINT(misc-include-cleaner)
 
 namespace {
 using namespace power_grid_model_io_native;

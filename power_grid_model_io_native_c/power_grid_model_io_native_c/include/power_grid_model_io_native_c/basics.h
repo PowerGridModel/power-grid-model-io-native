@@ -80,6 +80,8 @@ typedef struct PGM_IO_Handle PGM_IO_Handle;
 
 // NOLINTEND(modernize-use-using)
 
+// NOLINTBEGIN(performance-enum-size)
+
 /**
  * @brief Enumeration of error codes.
  *
@@ -104,6 +106,8 @@ enum PGM_IO_ExperimentalFeatures {
     PGM_IO_experimental_features_disabled = 0, /**< disable experimental features */
     PGM_IO_experimental_features_enabled = 1,  /**< enable experimental features */
 };
+
+// NOLINTEND(performance-enum-size)
 
 #ifdef __cplusplus
 }

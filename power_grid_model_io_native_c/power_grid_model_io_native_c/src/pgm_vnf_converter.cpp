@@ -11,7 +11,6 @@
 #include <power_grid_model_io_native_c/basics.h>
 #include <power_grid_model_io_native_c/pgm_vnf_converter.h>
 
-#include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/common/exception.hpp>
 
 namespace pgm_io = power_grid_model_io_native;
