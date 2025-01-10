@@ -90,17 +90,17 @@ inline void PgmVnfConverter::parse_vnf_file() {
     pgm::ID node_id = 0;
     std::vector<pgm::NodeInput> all_nodes;
     // std::map<std::string, std::vector<std::string>> all_nodes;
-    std::regex const nodes_regex(R"(\[NODE\]([\s\S]*?)\[\])");
+    std::regex const nodes_regex{R"(\[NODE\]([\s\S]*?)\[\])"};
     std::match_results<std::string_view::const_iterator> nodes_match;
 
     std::regex_search(this->buffer_.begin(), this->buffer_.end(), nodes_match, nodes_regex);
     auto const& nodes = nodes_match[1]; // the first group is the nodes data
     std::string_view nodes_data{nodes.first, nodes.second};
 
-    std::regex const node_regex(
-        R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?\s+Unom:([\d\.]+))#");
+    std::regex const node_regex{
+        R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?\s+Unom:([\d\.]+))#"};
 
-    svregex_iterator it(nodes_data.begin(), nodes_data.end(), node_regex);
+    svregex_iterator it{nodes_data.begin(), nodes_data.end(), node_regex};
     svregex_iterator const end;
 
     while (it != end) {
