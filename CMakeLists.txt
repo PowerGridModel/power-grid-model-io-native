@@ -44,6 +44,8 @@ if(${PGM_IO_ENABLE_DEV_BUILD})
   enable_testing()
   # get tests
   add_subdirectory("tests")
+  # get examples
+  add_subdirectory("examples")
 endif()
 
 # export the power grid model io native

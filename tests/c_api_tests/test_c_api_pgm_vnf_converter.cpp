@@ -204,9 +204,11 @@ TEST_CASE("Test PGM_IO_get_example_vnf_input_data") {
     PGM_IO_ExperimentalFeatures const experimental_feature_flag = PGM_IO_experimental_features_enabled;
 
     auto* converter = PGM_IO_create_pgm_vnf_converter(handle, basic_vision_9_7_vnf_file, experimental_feature_flag);
-    CHECK(converter != nullptr);
+    REQUIRE(PGM_IO_error_code(handle) == PGM_IO_no_error);
+    REQUIRE(converter != nullptr);
 
     auto const* const json_result = PGM_IO_pgm_vnf_converter_get_input_data(handle, converter);
+    REQUIRE(PGM_IO_error_code(handle) == PGM_IO_no_error);
     std::string_view const json_string =
         R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{"node":[{"id":0,"u_rated":11},{"id":1,"u_rated":11},{"id":2,"u_rated":0.4},{"id":3,"u_rated":11},{"id":4,"u_rated":0.4}]}})";
     CHECK(json_string == json_result);

@@ -87,10 +87,8 @@ typedef struct PGM_IO_Handle PGM_IO_Handle;
  *
  */
 enum PGM_IO_ErrorCode {
-    PGM_IO_no_error = 0,           /**< no error occurred */
-    PGM_IO_regular_error = 1,      /**< some error occurred which is not in the batch calculation */
-    PGM_IO_batch_error = 2,        /**< some error occurred which is in the batch calculation */
-    PGM_IO_serialization_error = 3 /**< some error occurred which is in the (de)serialization process */
+    PGM_IO_no_error = 0,      /**< no error occurred */
+    PGM_IO_regular_error = 1, /**< some error occurred during conversion */
 };
 
 /**
