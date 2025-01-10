@@ -11,8 +11,8 @@
 #include <fstream>
 #include <iostream>
 #include <span>
+#include <sstream>
 #include <string>
-#include <vector>
 
 namespace {
 using Idx = PGM_IO_Idx;
