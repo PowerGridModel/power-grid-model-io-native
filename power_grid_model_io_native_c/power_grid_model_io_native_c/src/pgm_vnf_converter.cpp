@@ -13,7 +13,10 @@
 
 #include <power_grid_model/common/exception.hpp>
 
+namespace {
+namespace pgm = power_grid_model;
 namespace pgm_io = power_grid_model_io_native;
+} // namespace
 
 struct PGM_IO_PgmVnfConverter : public pgm_io::PgmVnfConverter {
     using PgmVnfConverter::PgmVnfConverter;
@@ -34,7 +37,7 @@ PGM_IO_PgmVnfConverter* PGM_IO_create_pgm_vnf_converter(PGM_IO_Handle* handle, c
                 experimental_feature = experimental_features_enabled;
                 break;
             default:
-                throw power_grid_model::MissingCaseForEnumError{"PGM_IO_create_vnf_converter", experimental_features};
+                throw pgm::MissingCaseForEnumError{"PGM_IO_create_vnf_converter", experimental_features};
             }
             auto* converter = new PGM_IO_PgmVnfConverter(file_buffer, experimental_feature);
             parse_vnf_file_wrapper(converter);

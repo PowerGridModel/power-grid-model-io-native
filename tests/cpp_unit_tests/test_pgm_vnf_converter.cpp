@@ -27,7 +27,7 @@ std::string_view const empty_json_string =
 
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features") {
-        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), power_grid_model::ExperimentalFeature);
+        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), pgm::ExperimentalFeature);
     }
 
     SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
@@ -49,15 +49,15 @@ TEST_CASE("Test convert_input") {
 }
 
 // TEST_CASE("Test create_const_dataset_from_container is callable") {
-//     power_grid_model::Container<power_grid_model::Node> const container{};
-//     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+//     pgm::Container<pgm::Node> const container{};
+//     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
 //     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
 // }
 
 // TEST_CASE("Test serialize_data") {
-//     power_grid_model::Container<power_grid_model::Node> const container{};
-//     constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
-//     power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
+//     pgm::Container<pgm::Node> const container{};
+//     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
+//     pgm::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
 //     CHECK_NOTHROW(serialize_data(const_dataset));
 //     auto result = serialize_data(const_dataset);
 //     CHECK(result == empty_json_string);
@@ -72,10 +72,10 @@ TEST_CASE("Test setter/getter of file_buffer") {
 }
 
 TEST_CASE("Test setter/getter of deserialized_data") {
-    constexpr auto const& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+    constexpr auto const& meta_data = pgm::meta_data::meta_data_gen::meta_data;
 
     std::string_view const dataset_name = "input";
-    power_grid_model::WritableDataset writable_dataset{false, 1, dataset_name, meta_data};
+    pgm::WritableDataset writable_dataset{false, 1, dataset_name, meta_data};
 
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     converter.set_deserialized_dataset(&writable_dataset);
