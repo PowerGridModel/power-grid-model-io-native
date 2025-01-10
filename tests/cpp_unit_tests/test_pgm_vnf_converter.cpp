@@ -27,7 +27,7 @@ std::string_view const empty_json_string =
 
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features") {
-        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), power_grid_model::ExperimentalFeature);
+        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), ExperimentalFeature);
     }
 
     SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
