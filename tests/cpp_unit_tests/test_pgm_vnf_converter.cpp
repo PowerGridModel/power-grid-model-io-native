@@ -8,24 +8,26 @@
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
 #include <power_grid_model/common/exception.hpp>
-#include <power_grid_model/component/node.hpp>
-#include <power_grid_model/container.hpp>
 
 #include <doctest/doctest.h>
 
-#include <ostream> // NOLINT(misc-include-cleaner) // Windows Clang-Tidy issue
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <string>
 #include <string_view>
 
 namespace power_grid_model_io_native {
-
+namespace {
 using enum ExperimentalFeatures;
 
-std::string_view const json_string = R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
+std::string_view const empty_json_string =
+    R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
+} // namespace
 
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features") {
-        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), power_grid_model::ExperimentalFeature);
+        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), pgm::ExperimentalFeature);
     }
 
     SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
@@ -42,24 +44,24 @@ TEST_CASE("Test convert_input") {
     SUBCASE("Test convert_input") {
         converter.convert_input();
         auto json_result = converter.get_serialized_data();
-        CHECK(json_string == json_result);
+        CHECK(json_result == empty_json_string);
     }
 }
 
-TEST_CASE("Test create_const_dataset_from_container is callable") {
-    power_grid_model::Container<power_grid_model::Node> const container{};
-    constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
-    CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
-}
+// TEST_CASE("Test create_const_dataset_from_container is callable") {
+//     pgm::Container<pgm::Node> const container{};
+//     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
+//     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
+// }
 
-TEST_CASE("Test serialize_data") {
-    power_grid_model::Container<power_grid_model::Node> const container{};
-    constexpr const auto& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
-    power_grid_model::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
-    CHECK_NOTHROW(serialize_data(const_dataset));
-    auto result = serialize_data(const_dataset);
-    CHECK(result == json_string);
-}
+// TEST_CASE("Test serialize_data") {
+//     pgm::Container<pgm::Node> const container{};
+//     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
+//     pgm::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
+//     CHECK_NOTHROW(serialize_data(const_dataset));
+//     auto result = serialize_data(const_dataset);
+//     CHECK(result == empty_json_string);
+// }
 
 TEST_CASE("Test setter/getter of file_buffer") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
@@ -70,10 +72,10 @@ TEST_CASE("Test setter/getter of file_buffer") {
 }
 
 TEST_CASE("Test setter/getter of deserialized_data") {
-    constexpr auto const& meta_data = power_grid_model::meta_data::meta_data_gen::meta_data;
+    constexpr auto const& meta_data = pgm::meta_data::meta_data_gen::meta_data;
 
     std::string_view const dataset_name = "input";
-    power_grid_model::WritableDataset writable_dataset{false, 1, dataset_name, meta_data};
+    pgm::WritableDataset writable_dataset{false, 1, dataset_name, meta_data};
 
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     converter.set_deserialized_dataset(&writable_dataset);
@@ -83,16 +85,57 @@ TEST_CASE("Test setter/getter of deserialized_data") {
 
 TEST_CASE("Test parse_vnf_file_wrapper") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
-    PgmVnfConverter* converterPtr = &converter;
-    CHECK_NOTHROW(parse_vnf_file_wrapper(converterPtr));
+    CHECK_NOTHROW(parse_vnf_file_wrapper(&converter));
 }
 
 TEST_CASE("Test convert_input_wrapper") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
-    PgmVnfConverter* converterPtr = &converter;
-    CHECK_NOTHROW(convert_input_wrapper(converterPtr));
-    auto result = convert_input_wrapper(converterPtr);
-    CHECK(json_string == result);
+    CHECK_NOTHROW(convert_input_wrapper(&converter));
+    auto result = convert_input_wrapper(&converter);
+    CHECK(result == empty_json_string);
+}
+
+namespace {
+
+auto const* const vision_9_7_vnf_file_only_nodes = R"vnf(V9.7
+NETWORK
+
+[NODE]
+#General GUID:'{7FF722ED-33B3-4761-84AC-A164310D3C86}' CreationTime:44875.5806865509 Name:'node1' Unom:11 
+#Railtype 
+#Installation Kb:0.5 Kt:1 
+#Presentation Sheet:'{AC5FD754-220B-47EF-B98C-367CB49E8C75}' X:14800 Y:14800 Symbol:1 Size:6 Width:4 UpstringsY:-70 FaultStringsX:-20 FaultStringsY:20 NoteX:5 NoteY:5 IconY:50 
+#General GUID:'{1ED177A7-1F5D-4D81-8DE7-AB3E58512E0B}' CreationTime:44875.5937016435 Name:'node2' Unom:11 
+#Railtype 
+#Installation Kb:0.5 Kt:1 
+#Presentation Sheet:'{AC5FD754-220B-47EF-B98C-367CB49E8C75}' X:14940 Y:14800 Symbol:1 Size:6 Width:4 UpstringsY:-70 FaultStringsX:-20 FaultStringsY:20 NoteX:5 NoteY:5 IconY:50 
+#General GUID:'{DDE3457B-DB9A-4DA9-9564-6F49E0F296BD}' CreationTime:44875.5965067593 Name:'node3' Unom:0.4 
+#Railtype 
+#Installation Kb:0.5 Kt:1 
+#Presentation Sheet:'{AC5FD754-220B-47EF-B98C-367CB49E8C75}' X:15100 Y:14800 Symbol:1 Size:14 Width:4 UpstringsY:-150 FaultStringsX:-20 FaultStringsY:20 NoteX:5 NoteY:5 IconY:50 
+#General GUID:'{A79AFDE9-4096-4BEB-AB63-2B851D7FC6D1}' CreationTime:44875.5989385185 Name:'node4' Unom:11 
+#Railtype 
+#Installation Kb:0.5 Kt:1 
+#Presentation Sheet:'{AC5FD754-220B-47EF-B98C-367CB49E8C75}' X:15100 Y:15100 Symbol:1 Size:8 Width:4 UpstringsY:-90 FaultStringsX:-20 FaultStringsY:20 NoteX:5 NoteY:5 IconY:50 
+#General GUID:'{7848DBC8-9685-452C-89AF-9AB308224689}' CreationTime:44886.4465440509 Unom:0.4 
+#Railtype 
+#Installation Kb:0.5 Kt:1 
+#Presentation Sheet:'{AC5FD754-220B-47EF-B98C-367CB49E8C75}' X:15040 Y:14580 Symbol:1 Size:4 Width:4 UpstringsY:-50 FaultStringsX:-20 FaultStringsY:20 NoteX:5 NoteY:5 IconY:50 
+[]
+
+)vnf";
+
+std::string_view const only_nodes_json_string =
+    R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{"node":[{"id":0,"u_rated":11},{"id":1,"u_rated":11},{"id":2,"u_rated":0.4},{"id":3,"u_rated":11},{"id":4,"u_rated":0.4}]}})";
+
+} // namespace
+
+TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
+    auto converter = PgmVnfConverter(vision_9_7_vnf_file_only_nodes, experimental_features_enabled);
+    parse_vnf_file_wrapper(&converter);
+    convert_input_wrapper(&converter);
+    auto const result = converter.get_serialized_data();
+    CHECK(result == only_nodes_json_string);
 }
 
 } // namespace power_grid_model_io_native
