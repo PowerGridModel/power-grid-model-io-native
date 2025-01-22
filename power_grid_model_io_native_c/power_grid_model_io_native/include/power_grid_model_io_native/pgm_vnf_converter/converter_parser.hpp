@@ -17,12 +17,12 @@
 
 namespace power_grid_model_io_native {
 using ID = pgm::ID;
+using InputData = pgm::Container<pgm::NodeInput>;
 
 class PgmVnfParser{
   public:
     PgmVnfParser(std::string_view const vnf_data);
     
-    using InputData = pgm::Container<pgm::NodeInput>;
     InputData converted_data;
 
     template <typename Identifier>
@@ -32,7 +32,7 @@ class PgmVnfParser{
     using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
     VisionGUIDLookup vision_guid_lookup;
 
-    void parse_input();
+    InputData parse_input();
 
   private:
     std::string_view vnf_data_;
@@ -46,8 +46,9 @@ inline PgmVnfParser::PgmVnfParser(
     std::string_view const vnf_data) : vnf_data_(vnf_data), id_count_(0) {}
 
 
-inline void PgmVnfParser::parse_input() {
+inline InputData PgmVnfParser::parse_input() {
     parse_node_input();
+    return this->converted_data;
 }
 
 inline std::string_view PgmVnfParser::find_node_block(){

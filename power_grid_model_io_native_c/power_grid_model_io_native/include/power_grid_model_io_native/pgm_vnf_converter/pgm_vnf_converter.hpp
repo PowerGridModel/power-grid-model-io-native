@@ -28,7 +28,6 @@ inline std::string serialize_data(pgm::ConstDataset const& const_dataset) {
     return serialized_pgm_data;
 }
 
-using InputData = pgm::Container<pgm::NodeInput>;
 class PgmVnfConverter {
   public:
     using enum ExperimentalFeatures;
@@ -80,26 +79,29 @@ inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFea
 
 inline void PgmVnfConverter::parse_vnf_file() {
     auto parser = PgmVnfParser(this->buffer_);
-    parser.parse_input();
-    // need for a deep copy
-    this->deserialized_data_ = parser.converted_data;
+    this->deserialized_data_ = parser.parse_input();
 }
 
 inline pgm::ConstDataset PgmVnfConverter::make_const_dataset(pgm::meta_data::MetaData const& meta_data) {
     pgm::ConstDataset const_dataset{false, 1, "input", meta_data};
-    auto node_info = this->deserialized_data_.get_group_idx<pgm::NodeInput>();
+    std::vector<pgm::NodeInput> nodes;
+    for (auto& node : this->deserialized_data_.iter<pgm::NodeInput>()) {
+        nodes.push_back(node);
+    }
+    const_dataset.add_buffer("node", nodes.size(), nodes.size(), nullptr, nodes.data());
+
     return const_dataset;
 }
 
 inline void PgmVnfConverter::convert_input() {
-    std::vector<pgm::NodeInput> const nodes = convert_node_input();
-    convert_line_input();
-    convert_sources_input();
-    convert_sym_loads_input();
-    convert_shunts_input();
-    convert_transformer_input();
-    convert_sym_gens_input();
-    convert_links_input();
+    // std::vector<pgm::NodeInput> const nodes = convert_node_input();
+    // convert_line_input();
+    // convert_sources_input();
+    // convert_sym_loads_input();
+    // convert_shunts_input();
+    // convert_transformer_input();
+    // convert_sym_gens_input();
+    // convert_links_input();
 
     constexpr auto const& meta_data = pgm::meta_data::meta_data_gen::meta_data;
     pgm::ConstDataset const const_dataset = make_const_dataset(meta_data);
