@@ -72,15 +72,18 @@ TEST_CASE("Test setter/getter of file_buffer") {
 }
 
 TEST_CASE("Test setter/getter of deserialized_data") {
-    constexpr auto const& meta_data = pgm::meta_data::meta_data_gen::meta_data;
-
-    std::string_view const dataset_name = "input";
-    pgm::WritableDataset writable_dataset{false, 1, dataset_name, meta_data};
+    using InputData = pgm::Container<pgm::NodeInput>;
+    InputData converted_data;
+    converted_data.emplace<pgm::NodeInput>(1, 1, 11.2);
 
     auto converter = PgmVnfConverter("", experimental_features_enabled);
-    converter.set_deserialized_dataset(&writable_dataset);
-    auto* const writable_dataset_after_getter = converter.get_deserialized_dataset();
-    CHECK(&writable_dataset == writable_dataset_after_getter);
+    converter.set_deserialized_dataset(converted_data);
+    auto converted_data_after_getter = converter.get_deserialized_dataset();
+    // CHECK(converted_data == converted_data_after_getter);
+    pgm::NodeInput const& c = converted_data.get_item<pgm::NodeInput>({0, 0});
+    pgm::NodeInput const& c_after_getter = converted_data_after_getter.get_item<pgm::NodeInput>({0, 0});
+    CHECK(c.id == c_after_getter.id);
+    CHECK(c.u_rated == c_after_getter.u_rated);
 }
 
 TEST_CASE("Test parse_vnf_file_wrapper") {
