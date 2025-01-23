@@ -21,8 +21,6 @@ namespace power_grid_model_io_native {
 namespace {
 using enum ExperimentalFeatures;
 
-std::string_view const empty_json_string =
-    R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{}})";
 } // namespace
 
 TEST_CASE("Test converter constructor") {

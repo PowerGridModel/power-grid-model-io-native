@@ -20,7 +20,7 @@ using ID = pgm::ID;
 using VisionGUID = std::string;
 
 struct VnfNode {
-    VisionGUID guid{};
+    VisionGUID guid{"nan"};
     double u_nom{nan};
 };
 
@@ -30,9 +30,7 @@ using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
 
 class PgmVnfParser {
   public:
-    PgmVnfParser(std::string_view const vnf_data);
-
-    VnfGrid vnf_parsed_data;
+    PgmVnfParser(std::string_view vnf_data);
 
     VnfGrid parse_input();
     VisionGUIDLookup get_id_lookup();
@@ -40,19 +38,20 @@ class PgmVnfParser {
   private:
     VisionGUIDLookup vision_guid_lookup_;
     std::string_view vnf_data_;
-    ID id_count_;
+    VnfGrid vnf_parsed_data_;
+    ID id_count_{0};
 
     std::string_view find_node_block();
     void parse_node_input();
 };
 
-inline PgmVnfParser::PgmVnfParser(std::string_view const vnf_data) : vnf_data_(vnf_data), id_count_(0) {}
+inline PgmVnfParser::PgmVnfParser(std::string_view const vnf_data) : vnf_data_(vnf_data) {}
 
 inline VnfGrid PgmVnfParser::parse_input() {
     // parse each component individually and finish constructing the container
     parse_node_input();
-    this->vnf_parsed_data.set_construction_complete();
-    return this->vnf_parsed_data;
+    this->vnf_parsed_data_.set_construction_complete();
+    return this->vnf_parsed_data_;
 }
 
 inline std::string_view PgmVnfParser::find_node_block() {
@@ -87,7 +86,7 @@ inline void PgmVnfParser::parse_node_input() {
         double unom = std::stod(match[2].str());
 
         // Find the multiplier for unom
-        this->vnf_parsed_data.emplace<VnfNode>(id_count_, guid, unom);
+        this->vnf_parsed_data_.emplace<VnfNode>(id_count_, guid, unom);
         this->vision_guid_lookup_.emplace(guid, id_count_);
 
         this->id_count_++;

@@ -37,8 +37,6 @@ class PgmVnfConverter {
     PgmVnfConverter(std::string_view buffer,
                     ExperimentalFeatures experimental_feature_flag = experimental_features_disabled);
 
-    VisionGUIDLookup id_lookup;
-
     // Public member functions
     void parse_vnf_file();
     void convert_input();
@@ -55,6 +53,7 @@ class PgmVnfConverter {
     VnfGrid parsed_vnf_data_;
     std::string serialized_data_;
     std::vector<pgm::NodeInput> nodes_;
+    VisionGUIDLookup id_lookup_;
 
     // Private member functions
     pgm::ConstDataset make_const_dataset(pgm::meta_data::MetaData const& meta_data);
@@ -82,7 +81,7 @@ inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFea
 inline void PgmVnfConverter::parse_vnf_file() {
     auto parser = PgmVnfParser(this->buffer_);
     this->parsed_vnf_data_ = parser.parse_input();
-    this->id_lookup = parser.get_id_lookup();
+    this->id_lookup_ = parser.get_id_lookup();
 }
 
 inline pgm::ConstDataset PgmVnfConverter::make_const_dataset(pgm::meta_data::MetaData const& meta_data) {
@@ -104,7 +103,7 @@ inline void PgmVnfConverter::convert_input() {
 
 inline void PgmVnfConverter::set_file_buffer(std::string_view file_buffer) { this->buffer_ = file_buffer; }
 
-inline void PgmVnfConverter::set_deserialized_dataset(PgmInput data) { this->deserialized_data_ = data; }
+inline void PgmVnfConverter::set_deserialized_dataset(PgmInput data) { this->deserialized_data_ = std::move(data); }
 
 inline std::string_view PgmVnfConverter::get_file_buffer() const { return this->buffer_; }
 
@@ -117,7 +116,7 @@ inline void PgmVnfConverter::convert_node_input() {
 
     for (auto& node : this->parsed_vnf_data_.iter<VnfNode>()) {
         // Lookup PGM node id and get vnf node u_nom value
-        auto node_id = id_lookup[node.guid];
+        auto node_id = id_lookup_[node.guid];
         auto vnfnode_unom = node.u_nom;
 
         // add u_nom multiplier when known
