@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #include <power_grid_model_io_native/common/enum.hpp>
+#include <power_grid_model_io_native/common/exception.hpp>
 #include <power_grid_model_io_native/pgm_vnf_converter/pgm_vnf_converter.hpp>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
-#include <power_grid_model/common/exception.hpp>
 
 #include <doctest/doctest.h>
 
@@ -27,7 +27,7 @@ std::string_view const empty_json_string =
 
 TEST_CASE("Test converter constructor") {
     SUBCASE("Without experimental features") {
-        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), pgm::ExperimentalFeature);
+        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), ExperimentalFeature);
     }
 
     SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }

@@ -8,12 +8,12 @@
 
 #include <power_grid_model_io_native/common/common.hpp>
 #include <power_grid_model_io_native/common/enum.hpp>
+#include <power_grid_model_io_native/common/exception.hpp>
 #include <power_grid_model_io_native/pgm_vnf_converter/converter_parser.hpp>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
 #include <power_grid_model/auxiliary/serialization/serializer.hpp>
-#include <power_grid_model/common/exception.hpp>
 #include <power_grid_model/component/node.hpp>
 #include <power_grid_model/container.hpp>
 
@@ -71,12 +71,11 @@ class PgmVnfConverter {
 inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFeatures experimental_feature_flag)
     : buffer_(buffer) {
     if (experimental_feature_flag == experimental_features_disabled) {
-        using pgm::ExperimentalFeature;
-        throw ExperimentalFeature{
-            "PGM_VNF_converter",
-            ExperimentalFeature::TypeValuePair{.name = "PGM_VNF_conversion",
-                                               .value = "PgmVnfConverter is still in an experimental phase, if you'd "
-                                                        "like to use it, enable experimental features."}};
+        throw ExperimentalFeature{"PGM_VNF_converter",
+                                  ExperimentalFeature::TypeValuePair{
+                                      .name = "PGM_VNF_conversion",
+                                      .value = "PgmVnfConverter is still in an experimental phase, if you would "
+                                               "like to use it, enable experimental features."}};
     }
 }
 
