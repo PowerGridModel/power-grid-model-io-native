@@ -83,7 +83,7 @@ inline void PgmVnfParser::parse_node_input() {
         svmatch const match = *it;
 
         std::string guid = match[1].str();
-        double unom = std::stod(match[2].str());
+        double const unom = std::stod(match[2].str());
 
         // Find the multiplier for unom
         this->vnf_parsed_data_.emplace<VnfNode>(id_count_, guid, unom);
