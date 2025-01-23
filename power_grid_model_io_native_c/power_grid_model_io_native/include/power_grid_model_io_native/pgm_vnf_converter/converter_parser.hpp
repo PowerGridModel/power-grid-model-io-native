@@ -30,10 +30,10 @@ using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
 
 class PgmVnfParser {
   public:
-    PgmVnfParser(std::string_view vnf_data);
+    explicit PgmVnfParser(std::string_view vnf_data);
 
     VnfGrid parse_input();
-    VisionGUIDLookup get_id_lookup();
+    VisionGUIDLookup const get_id_lookup();
 
   private:
     VisionGUIDLookup vision_guid_lookup_;
@@ -41,7 +41,7 @@ class PgmVnfParser {
     VnfGrid vnf_parsed_data_;
     ID id_count_{0};
 
-    std::string_view find_node_block();
+    std::string_view const find_node_block();
     void parse_node_input();
 };
 
@@ -54,7 +54,7 @@ inline VnfGrid PgmVnfParser::parse_input() {
     return this->vnf_parsed_data_;
 }
 
-inline std::string_view PgmVnfParser::find_node_block() {
+inline std::string_view const PgmVnfParser::find_node_block() {
     // obtain the whole string block for nodes
     std::regex const nodes_regex{R"(\[NODE\]([\s\S]*?)\[\])"};
     std::match_results<std::string_view::const_iterator> nodes_match;
@@ -87,14 +87,14 @@ inline void PgmVnfParser::parse_node_input() {
 
         // Find the multiplier for unom
         this->vnf_parsed_data_.emplace<VnfNode>(id_count_, guid, unom);
-        this->vision_guid_lookup_.emplace(guid, id_count_);
+        this->vision_guid_lookup_.try_emplace(guid, id_count_);
 
         this->id_count_++;
         ++it;
     }
 }
 
-inline VisionGUIDLookup PgmVnfParser::get_id_lookup() { return this->vision_guid_lookup_; }
+inline VisionGUIDLookup const PgmVnfParser::get_id_lookup() { return this->vision_guid_lookup_; }
 
 } // namespace power_grid_model_io_native
 
