@@ -38,16 +38,6 @@ TEST_CASE("Test parse_vnf_file is callable") {
     CHECK_NOTHROW(converter.parse_vnf_file());
 }
 
-// TEST_CASE("Test convert_input") {
-//     auto converter = PgmVnfConverter("", experimental_features_enabled);
-//     SUBCASE("Test convert_input is callable") { CHECK_NOTHROW(converter.convert_input()); }
-//     SUBCASE("Test convert_input") {
-//         converter.convert_input();
-//         auto json_result = converter.get_serialized_data();
-//         CHECK(json_result == empty_json_string);
-//     }
-// }
-
 // TEST_CASE("Test create_const_dataset_from_container is callable") {
 //     pgm::Container<pgm::Node> const container{};
 //     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
@@ -90,13 +80,6 @@ TEST_CASE("Test parse_vnf_file_wrapper") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     CHECK_NOTHROW(parse_vnf_file_wrapper(&converter));
 }
-
-// TEST_CASE("Test convert_input_wrapper") {
-//     auto converter = PgmVnfConverter("", experimental_features_enabled);
-//     CHECK_NOTHROW(convert_input_wrapper(&converter));
-//     auto result = convert_input_wrapper(&converter);
-//     CHECK(result == empty_json_string);
-// }
 
 namespace {
 
