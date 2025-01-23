@@ -11,47 +11,52 @@
 #include <power_grid_model/auxiliary/input.hpp>
 #include <power_grid_model/container.hpp>
 
-#include <map>
 #include <iostream>
+#include <map>
 #include <regex>
 
 namespace power_grid_model_io_native {
 using ID = pgm::ID;
-using InputData = pgm::Container<pgm::NodeInput>;
+using VisionGUID = std::string;
 
-class PgmVnfParser{
+struct VnfNode {
+    VisionGUID guid{};
+    double u_nom{nan};
+};
+
+using VnfGrid = pgm::Container<VnfNode>;
+template <typename Identifier> using IdentifierLookup = std::map<Identifier, ID>;
+using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
+
+class PgmVnfParser {
   public:
     PgmVnfParser(std::string_view const vnf_data);
-    
-    InputData converted_data;
 
-    template <typename Identifier>
-    using IdentifierLookup = std::map<Identifier, ID>;
+    VnfGrid vnf_parsed_data;
 
-    using VisionGUID = std::string;
-    using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
-    VisionGUIDLookup vision_guid_lookup;
-
-    InputData parse_input();
+    VnfGrid parse_input();
+    VisionGUIDLookup get_id_lookup();
 
   private:
+    VisionGUIDLookup vision_guid_lookup_;
     std::string_view vnf_data_;
-    ID id_count_; 
+    ID id_count_;
 
     std::string_view find_node_block();
     void parse_node_input();
 };
 
-inline PgmVnfParser::PgmVnfParser(
-    std::string_view const vnf_data) : vnf_data_(vnf_data), id_count_(0) {}
+inline PgmVnfParser::PgmVnfParser(std::string_view const vnf_data) : vnf_data_(vnf_data), id_count_(0) {}
 
-
-inline InputData PgmVnfParser::parse_input() {
+inline VnfGrid PgmVnfParser::parse_input() {
+    // parse each component individually and finish constructing the container
     parse_node_input();
-    return this->converted_data;
+    this->vnf_parsed_data.set_construction_complete();
+    return this->vnf_parsed_data;
 }
 
-inline std::string_view PgmVnfParser::find_node_block(){
+inline std::string_view PgmVnfParser::find_node_block() {
+    // obtain the whole string block for nodes
     std::regex const nodes_regex{R"(\[NODE\]([\s\S]*?)\[\])"};
     std::match_results<std::string_view::const_iterator> nodes_match;
 
@@ -63,13 +68,14 @@ inline std::string_view PgmVnfParser::find_node_block(){
 }
 
 inline void PgmVnfParser::parse_node_input() {
+    // extract guids and unoms from the string nodes block,
+    // fill the vnf_parsed_data and id lookup
     using svmatch = std::match_results<std::string_view::const_iterator>;
     using svregex_iterator = std::regex_iterator<std::string_view::const_iterator>;
 
     std::string_view const nodes_block = find_node_block();
 
-    std::regex const node_regex{
-        R"#(#General GUID:'\{([^\}]*)\}'\s+CreationTime:([\d\.]+)(?:\s+Name:'([^']*)')?\s+Unom:([\d\.]+))#"};
+    std::regex const node_regex{R"#(#General GUID:'\{([^\}]*)\}'.*?Unom:([\d\.]+))#"};
 
     svregex_iterator it{nodes_block.begin(), nodes_block.end(), node_regex};
     svregex_iterator const end;
@@ -77,21 +83,19 @@ inline void PgmVnfParser::parse_node_input() {
     while (it != end) {
         svmatch const match = *it;
 
-        std::cout << "GUID: " << match[1].str() << "\n";
-        std::cout << "CreationTime: " << match[2].str() << "\n";
-        std::cout << "Name: " << match[3].str() << "\n";
-        std::cout << "Unom: " << match[4].str() << "\n\n";
-        double unom = std::stod(match[4].str());
         std::string guid = match[1].str();
+        double unom = std::stod(match[2].str());
 
-        //Find the multiplier for unom
-        this->converted_data.emplace<pgm::NodeInput>(id_count_, id_count_, unom);
-        this->vision_guid_lookup.emplace(guid, id_count_);
+        // Find the multiplier for unom
+        this->vnf_parsed_data.emplace<VnfNode>(id_count_, guid, unom);
+        this->vision_guid_lookup_.emplace(guid, id_count_);
 
         this->id_count_++;
         ++it;
     }
 }
+
+inline VisionGUIDLookup PgmVnfParser::get_id_lookup() { return this->vision_guid_lookup_; }
 
 } // namespace power_grid_model_io_native
 

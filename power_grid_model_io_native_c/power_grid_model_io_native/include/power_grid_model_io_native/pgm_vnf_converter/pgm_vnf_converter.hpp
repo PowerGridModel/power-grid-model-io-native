@@ -22,6 +22,8 @@
 
 namespace power_grid_model_io_native {
 
+using PgmInput = pgm::Container<pgm::NodeInput>;
+
 inline std::string serialize_data(pgm::ConstDataset const& const_dataset) {
     pgm::meta_data::Serializer serializer(const_dataset, pgm::SerializationFormat::json);
     std::string serialized_pgm_data = serializer.get_string(false, -1);
@@ -35,20 +37,22 @@ class PgmVnfConverter {
     PgmVnfConverter(std::string_view buffer,
                     ExperimentalFeatures experimental_feature_flag = experimental_features_disabled);
 
+    VisionGUIDLookup id_lookup;
+
     // Public member functions
     void parse_vnf_file();
     void convert_input();
-
     std::string const& get_serialized_data() const;
     void set_file_buffer(std::string_view file_buffer);
-    void set_deserialized_dataset(InputData deserialized_data);
+    void set_deserialized_dataset(PgmInput deserialized_data);
     std::string_view get_file_buffer() const;
-    InputData get_deserialized_dataset();
+    PgmInput get_deserialized_dataset();
 
   private:
     // Private attributes
     std::string_view buffer_;
-    InputData deserialized_data_;
+    PgmInput deserialized_data_;
+    VnfGrid parsed_vnf_data_;
     std::string serialized_data_;
     std::vector<pgm::NodeInput> nodes_;
 
@@ -78,8 +82,8 @@ inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFea
 
 inline void PgmVnfConverter::parse_vnf_file() {
     auto parser = PgmVnfParser(this->buffer_);
-    this->deserialized_data_ = parser.parse_input();
-    this->deserialized_data_.set_construction_complete();
+    this->parsed_vnf_data_ = parser.parse_input();
+    this->id_lookup = parser.get_id_lookup();
 }
 
 inline pgm::ConstDataset PgmVnfConverter::make_const_dataset(pgm::meta_data::MetaData const& meta_data) {
@@ -91,6 +95,8 @@ inline pgm::ConstDataset PgmVnfConverter::make_const_dataset(pgm::meta_data::Met
 inline void PgmVnfConverter::convert_input() {
     convert_node_input();
 
+    // construction complete has to be after we convert all the components
+    this->deserialized_data_.set_construction_complete();
     constexpr auto const& meta_data = pgm::meta_data::meta_data_gen::meta_data;
     pgm::ConstDataset const const_dataset = make_const_dataset(meta_data);
     std::string const serialized_pgm_data = serialize_data(const_dataset);
@@ -99,18 +105,26 @@ inline void PgmVnfConverter::convert_input() {
 
 inline void PgmVnfConverter::set_file_buffer(std::string_view file_buffer) { this->buffer_ = file_buffer; }
 
-inline void PgmVnfConverter::set_deserialized_dataset(InputData data) { this->deserialized_data_ = data; }
+inline void PgmVnfConverter::set_deserialized_dataset(PgmInput data) { this->deserialized_data_ = data; }
 
 inline std::string_view PgmVnfConverter::get_file_buffer() const { return this->buffer_; }
 
-inline InputData PgmVnfConverter::get_deserialized_dataset() { return this->deserialized_data_; }
+inline PgmInput PgmVnfConverter::get_deserialized_dataset() { return this->deserialized_data_; }
 
 inline std::string const& PgmVnfConverter::get_serialized_data() const { return this->serialized_data_; }
 
 inline void PgmVnfConverter::convert_node_input() {
     std::vector<pgm::NodeInput> nodes;
-    for (auto& node : this->deserialized_data_.iter<pgm::NodeInput>()) {
-        nodes.push_back(node);
+
+    for (auto& node : this->parsed_vnf_data_.iter<VnfNode>()) {
+        // Lookup PGM node id and get vnf node u_nom value
+        auto node_id = id_lookup[node.guid];
+        auto vnfnode_unom = node.u_nom;
+
+        // add u_nom multiplier when known
+        this->deserialized_data_.emplace<pgm::NodeInput>(node_id, node_id, vnfnode_unom);
+
+        nodes.emplace_back(pgm::NodeInput{node_id, vnfnode_unom});
     }
     this->nodes_ = nodes;
 }
