@@ -44,7 +44,7 @@ class PgmVnfConverter {
     void set_file_buffer(std::string_view file_buffer);
     void set_deserialized_dataset(PgmInput deserialized_data);
     std::string_view get_file_buffer() const;
-    PgmInput const get_deserialized_dataset();
+    PgmInput get_deserialized_dataset() const;
 
   private:
     // Private attributes
@@ -107,7 +107,7 @@ inline void PgmVnfConverter::set_deserialized_dataset(PgmInput data) { this->des
 
 inline std::string_view PgmVnfConverter::get_file_buffer() const { return this->buffer_; }
 
-inline PgmInput const PgmVnfConverter::get_deserialized_dataset() { return this->deserialized_data_; }
+inline PgmInput PgmVnfConverter::get_deserialized_dataset() const { return this->deserialized_data_; }
 
 inline std::string const& PgmVnfConverter::get_serialized_data() const { return this->serialized_data_; }
 
