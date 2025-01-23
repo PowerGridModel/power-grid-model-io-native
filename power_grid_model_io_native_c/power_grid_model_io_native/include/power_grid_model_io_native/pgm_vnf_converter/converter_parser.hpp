@@ -82,7 +82,7 @@ inline void PgmVnfParser::parse_node_input() {
     while (it != end) {
         svmatch const match = *it;
 
-        std::string guid = match[1].str();
+        std::string const guid = match[1].str();
         double const unom = std::stod(match[2].str());
 
         // Find the multiplier for unom
