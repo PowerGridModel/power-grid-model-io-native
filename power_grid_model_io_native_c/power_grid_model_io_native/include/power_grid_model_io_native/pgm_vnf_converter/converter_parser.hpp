@@ -29,7 +29,7 @@ using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
 
 class PgmVnfParser {
   public:
-    explicit PgmVnfParser(std::string_view const vnf_data);
+    explicit PgmVnfParser(std::string_view vnf_data);
 
     void parse_input();
     VisionGUIDLookup get_id_lookup() const;
