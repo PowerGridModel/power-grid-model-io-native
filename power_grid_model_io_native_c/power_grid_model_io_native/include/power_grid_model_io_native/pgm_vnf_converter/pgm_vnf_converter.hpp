@@ -80,7 +80,8 @@ inline PgmVnfConverter::PgmVnfConverter(std::string_view buffer, ExperimentalFea
 
 inline void PgmVnfConverter::parse_vnf_file() {
     auto parser = PgmVnfParser(this->buffer_);
-    this->parsed_vnf_data_ = parser.parse_input();
+    parser.parse_input();
+    this->parsed_vnf_data_ = parser.get_parsed_data();
     this->id_lookup_ = parser.get_id_lookup();
 }
 

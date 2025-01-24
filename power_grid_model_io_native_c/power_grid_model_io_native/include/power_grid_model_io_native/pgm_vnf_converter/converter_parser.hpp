@@ -16,7 +16,6 @@
 #include <regex>
 
 namespace power_grid_model_io_native {
-using ID = pgm::ID;
 using VisionGUID = std::string;
 
 struct VnfNode {
@@ -30,10 +29,11 @@ using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
 
 class PgmVnfParser {
   public:
-    explicit PgmVnfParser(std::string_view vnf_data);
+    explicit PgmVnfParser(std::string_view const vnf_data);
 
-    VnfGrid parse_input();
+    void parse_input();
     VisionGUIDLookup get_id_lookup() const;
+    VnfGrid get_parsed_data() const;
 
   private:
     VisionGUIDLookup vision_guid_lookup_;
@@ -47,11 +47,10 @@ class PgmVnfParser {
 
 inline PgmVnfParser::PgmVnfParser(std::string_view const vnf_data) : vnf_data_(vnf_data) {}
 
-inline VnfGrid PgmVnfParser::parse_input() {
+inline void PgmVnfParser::parse_input() {
     // parse each component individually and finish constructing the container
     parse_node_input();
     this->vnf_parsed_data_.set_construction_complete();
-    return this->vnf_parsed_data_;
 }
 
 inline std::string_view PgmVnfParser::find_node_block() const {
@@ -95,6 +94,8 @@ inline void PgmVnfParser::parse_node_input() {
 }
 
 inline VisionGUIDLookup PgmVnfParser::get_id_lookup() const { return this->vision_guid_lookup_; }
+
+inline VnfGrid PgmVnfParser::get_parsed_data() const { return this->vnf_parsed_data_; }
 
 } // namespace power_grid_model_io_native
 

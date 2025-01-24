@@ -22,6 +22,8 @@ using pgm::other_symmetry_t;
 using pgm::symmetric_t;
 using pgm::symmetry_tag;
 
+using ID = pgm::ID;
+
 // math constant
 using namespace std::complex_literals;
 using pgm::DoubleComplex;
