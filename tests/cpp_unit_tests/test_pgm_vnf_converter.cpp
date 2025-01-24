@@ -119,7 +119,6 @@ TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
     parse_vnf_file_wrapper(&converter);
     convert_input_wrapper(&converter);
     auto const result = converter.get_serialized_data();
-    std::cout << "result: " << result << "\n";
     CHECK(result == only_nodes_json_string);
 }
 
