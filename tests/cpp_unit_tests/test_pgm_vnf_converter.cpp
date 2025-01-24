@@ -36,21 +36,6 @@ TEST_CASE("Test parse_vnf_file is callable") {
     CHECK_NOTHROW(converter.parse_vnf_file());
 }
 
-// TEST_CASE("Test create_const_dataset_from_container is callable") {
-//     pgm::Container<pgm::Node> const container{};
-//     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
-//     CHECK_NOTHROW(create_const_dataset_from_container(container, meta_data));
-// }
-
-// TEST_CASE("Test serialize_data") {
-//     pgm::Container<pgm::Node> const container{};
-//     constexpr const auto& meta_data = pgm::meta_data::meta_data_gen::meta_data;
-//     pgm::ConstDataset const const_dataset = create_const_dataset_from_container(container, meta_data);
-//     CHECK_NOTHROW(serialize_data(const_dataset));
-//     auto result = serialize_data(const_dataset);
-//     CHECK(result == empty_json_string);
-// }
-
 TEST_CASE("Test setter/getter of file_buffer") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     std::string_view const value = "123";
@@ -67,7 +52,6 @@ TEST_CASE("Test setter/getter of deserialized_data") {
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     converter.set_deserialized_dataset(converted_data);
     auto converted_data_after_getter = converter.get_deserialized_dataset();
-    // CHECK(converted_data == converted_data_after_getter);
     pgm::NodeInput const& c = converted_data.get_item<pgm::NodeInput>({0, 0});
     pgm::NodeInput const& c_after_getter = converted_data_after_getter.get_item<pgm::NodeInput>({0, 0});
     CHECK(c.id == c_after_getter.id);
