@@ -76,7 +76,7 @@ inline void PgmVnfParser::parse_node_input() {
     std::regex const node_regex{R"#(#General GUID:'\{([^\}]*)\}'.*?Unom:([\d\.]+))#"};
 
     for (svregex_iterator it{nodes_block.begin(), nodes_block.end(), node_regex}, end; it != end; ++it) {
-        svmatch const match = *it;
+        svmatch const& match = *it;
 
         std::string const guid = match[1].str();
         double const unom = std::stod(match[2].str());
