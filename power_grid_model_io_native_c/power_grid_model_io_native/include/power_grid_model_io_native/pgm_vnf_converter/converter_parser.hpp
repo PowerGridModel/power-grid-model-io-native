@@ -24,7 +24,7 @@ struct VnfNode {
 };
 
 using VnfGrid = pgm::Container<VnfNode>;
-template <typename Identifier> using IdentifierLookup = std::map<Identifier, ID>;
+template <typename Identifier> using IdentifierLookup = std::unordered_map<Identifier, ID>;
 using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
 
 class PgmVnfParser {
@@ -59,6 +59,7 @@ inline std::string_view PgmVnfParser::find_node_block() const {
     std::match_results<std::string_view::const_iterator> nodes_match;
 
     std::regex_search(this->vnf_data_.begin(), this->vnf_data_.end(), nodes_match, nodes_regex);
+    assert(nodes_match.size() > 1);
     auto const& nodes = nodes_match[1]; // the first group is the nodes data
     std::string_view const nodes_block{nodes.first, nodes.second};
 
@@ -78,6 +79,7 @@ inline void PgmVnfParser::parse_node_input() {
     for (svregex_iterator it{nodes_block.begin(), nodes_block.end(), node_regex}, end; it != end; ++it) {
         svmatch const& match = *it;
 
+        assert(match.size() > 2);
         std::string const guid = match[1].str();
         double const unom = std::stod(match[2].str());
 

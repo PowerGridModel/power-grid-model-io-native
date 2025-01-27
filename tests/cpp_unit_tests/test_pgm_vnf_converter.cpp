@@ -21,50 +21,6 @@ namespace power_grid_model_io_native {
 namespace {
 using enum ExperimentalFeatures;
 
-} // namespace
-
-TEST_CASE("Test converter constructor") {
-    SUBCASE("Without experimental features") {
-        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), ExperimentalFeature);
-    }
-
-    SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
-}
-
-TEST_CASE("Test parse_vnf_file is callable") {
-    auto converter = PgmVnfConverter("", experimental_features_enabled);
-    CHECK_NOTHROW(converter.parse_vnf_file());
-}
-
-TEST_CASE("Test setter/getter of file_buffer") {
-    auto converter = PgmVnfConverter("", experimental_features_enabled);
-    std::string_view const value = "123";
-    converter.set_file_buffer(value);
-    auto file_buff = converter.get_file_buffer();
-    CHECK(file_buff == value);
-}
-
-TEST_CASE("Test setter/getter of deserialized_data") {
-    using InputData = pgm::Container<pgm::NodeInput>;
-    InputData converted_data;
-    converted_data.emplace<pgm::NodeInput>(1, 1, 11.2);
-
-    auto converter = PgmVnfConverter("", experimental_features_enabled);
-    converter.set_deserialized_dataset(converted_data);
-    auto converted_data_after_getter = converter.get_deserialized_dataset();
-    pgm::NodeInput const& c = converted_data.get_item<pgm::NodeInput>({0, 0});
-    pgm::NodeInput const& c_after_getter = converted_data_after_getter.get_item<pgm::NodeInput>({0, 0});
-    CHECK(c.id == c_after_getter.id);
-    CHECK(c.u_rated == c_after_getter.u_rated);
-}
-
-TEST_CASE("Test parse_vnf_file_wrapper") {
-    auto converter = PgmVnfConverter("", experimental_features_enabled);
-    CHECK_NOTHROW(parse_vnf_file_wrapper(&converter));
-}
-
-namespace {
-
 auto const* const vision_9_7_vnf_file_only_nodes = R"vnf(V9.7
 NETWORK
 
@@ -97,6 +53,46 @@ std::string_view const only_nodes_json_string =
     R"({"version":"1.0","type":"input","is_batch":false,"attributes":{},"data":{"node":[{"id":0,"u_rated":11},{"id":1,"u_rated":11},{"id":2,"u_rated":0.4},{"id":3,"u_rated":11},{"id":4,"u_rated":0.4}]}})";
 
 } // namespace
+
+TEST_CASE("Test converter constructor") {
+    SUBCASE("Without experimental features") {
+        CHECK_THROWS_AS(PgmVnfConverter("", experimental_features_disabled), ExperimentalFeature);
+    }
+
+    SUBCASE("With experimental features") { CHECK_NOTHROW(PgmVnfConverter("", experimental_features_enabled)); }
+}
+
+TEST_CASE("Test parse_vnf_file is callable") {
+    auto converter = PgmVnfConverter(vision_9_7_vnf_file_only_nodes, experimental_features_enabled);
+    CHECK_NOTHROW(converter.parse_vnf_file());
+}
+
+TEST_CASE("Test setter/getter of file_buffer") {
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
+    std::string_view const value = "123";
+    converter.set_file_buffer(value);
+    auto file_buff = converter.get_file_buffer();
+    CHECK(file_buff == value);
+}
+
+TEST_CASE("Test setter/getter of deserialized_data") {
+    using InputData = pgm::Container<pgm::NodeInput>;
+    InputData converted_data;
+    converted_data.emplace<pgm::NodeInput>(1, 1, 11.2);
+
+    auto converter = PgmVnfConverter("", experimental_features_enabled);
+    converter.set_deserialized_dataset(converted_data);
+    auto converted_data_after_getter = converter.get_deserialized_dataset();
+    pgm::NodeInput const& c = converted_data.get_item<pgm::NodeInput>({0, 0});
+    pgm::NodeInput const& c_after_getter = converted_data_after_getter.get_item<pgm::NodeInput>({0, 0});
+    CHECK(c.id == c_after_getter.id);
+    CHECK(c.u_rated == c_after_getter.u_rated);
+}
+
+TEST_CASE("Test parse_vnf_file_wrapper") {
+    auto converter = PgmVnfConverter(vision_9_7_vnf_file_only_nodes, experimental_features_enabled);
+    CHECK_NOTHROW(parse_vnf_file_wrapper(&converter));
+}
 
 TEST_CASE("Test parse_vnf_file_wrapper minimal example") {
     auto converter = PgmVnfConverter(vision_9_7_vnf_file_only_nodes, experimental_features_enabled);

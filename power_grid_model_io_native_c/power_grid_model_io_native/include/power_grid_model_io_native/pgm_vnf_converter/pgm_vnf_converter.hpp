@@ -6,10 +6,11 @@
 #ifndef POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP
 #define POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP
 
+#include "converter_parser.hpp"
+
 #include <power_grid_model_io_native/common/common.hpp>
 #include <power_grid_model_io_native/common/enum.hpp>
 #include <power_grid_model_io_native/common/exception.hpp>
-#include <power_grid_model_io_native/pgm_vnf_converter/converter_parser.hpp>
 
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
@@ -113,9 +114,8 @@ inline PgmInput PgmVnfConverter::get_deserialized_dataset() const { return this-
 inline std::string const& PgmVnfConverter::get_serialized_data() const { return this->serialized_data_; }
 
 inline void PgmVnfConverter::convert_node_input() {
-    std::vector<pgm::NodeInput> nodes;
-
-    for (auto const& node : this->parsed_vnf_data_.iter<VnfNode>()) {
+    this->nodes_.reserve(this->parsed_vnf_data_.template size<VnfNode>());
+    for (auto const& node : this->parsed_vnf_data_.template iter<VnfNode>()) {
         // Lookup PGM node id and get vnf node u_nom value
         auto node_id = id_lookup_[node.guid];
         auto vnfnode_unom = node.u_nom;
@@ -123,9 +123,8 @@ inline void PgmVnfConverter::convert_node_input() {
         // add u_nom multiplier when known
         this->deserialized_data_.emplace<pgm::NodeInput>(node_id, node_id, vnfnode_unom);
 
-        nodes.emplace_back(pgm::NodeInput{node_id, vnfnode_unom});
+        this->nodes_.emplace_back(pgm::NodeInput{node_id, vnfnode_unom});
     }
-    this->nodes_ = nodes;
 }
 
 inline void parse_vnf_file_wrapper(PgmVnfConverter* obj) { obj->parse_vnf_file(); }
