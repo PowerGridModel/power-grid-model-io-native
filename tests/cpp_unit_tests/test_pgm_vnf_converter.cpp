@@ -76,15 +76,14 @@ TEST_CASE("Test setter/getter of file_buffer") {
 }
 
 TEST_CASE("Test setter/getter of deserialized_data") {
-    using InputData = pgm::Container<pgm::NodeInput>;
-    InputData converted_data;
-    converted_data.emplace<pgm::NodeInput>(1, 1, 11.2);
+    PgmConvertedData converted_data;
+    converted_data.input.emplace<pgm::NodeInput>(1, 1, 11.2);
 
     auto converter = PgmVnfConverter("", experimental_features_enabled);
     converter.set_deserialized_dataset(converted_data);
     auto converted_data_after_getter = converter.get_deserialized_dataset();
-    pgm::NodeInput const& c = converted_data.get_item<pgm::NodeInput>({0, 0});
-    pgm::NodeInput const& c_after_getter = converted_data_after_getter.get_item<pgm::NodeInput>({0, 0});
+    pgm::NodeInput const& c = converted_data.input.get_item<pgm::NodeInput>({0, 0});
+    pgm::NodeInput const& c_after_getter = converted_data_after_getter.input.get_item<pgm::NodeInput>({0, 0});
     CHECK(c.id == c_after_getter.id);
     CHECK(c.u_rated == c_after_getter.u_rated);
 }

@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 #pragma once
-#ifndef POWER_GRID_MODEL_IO_NATIVE_C_CONVERTER_PARSER_HPP
-#define POWER_GRID_MODEL_IO_NATIVE_C_CONVERTER_PARSER_HPP
+#ifndef POWER_GRID_MODEL_IO_NATIVE_C_VNF_PARSER_HPP
+#define POWER_GRID_MODEL_IO_NATIVE_C_VNF_PARSER_HPP
 
 #include <power_grid_model_io_native/common/common.hpp>
 
@@ -97,4 +97,4 @@ inline VnfGrid PgmVnfParser::get_parsed_data() const { return this->vnf_parsed_d
 
 } // namespace power_grid_model_io_native
 
-#endif // POWER_GRID_MODEL_IO_NATIVE_C_CONVERTER_PARSER_HPP
+#endif // POWER_GRID_MODEL_IO_NATIVE_C_VNF_PARSER_HPP

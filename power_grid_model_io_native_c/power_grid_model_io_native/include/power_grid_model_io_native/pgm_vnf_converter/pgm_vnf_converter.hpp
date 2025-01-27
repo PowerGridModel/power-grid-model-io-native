@@ -6,7 +6,7 @@
 #ifndef POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP
 #define POWER_GRID_MODEL_IO_NATIVE_C_PGM_VNF_CONVERTER_HPP
 
-#include "converter_parser.hpp"
+#include "vnf_parser.hpp"
 
 #include <power_grid_model_io_native/common/common.hpp>
 #include <power_grid_model_io_native/common/enum.hpp>
@@ -15,6 +15,7 @@
 #include <power_grid_model/auxiliary/dataset.hpp>
 #include <power_grid_model/auxiliary/meta_data_gen.hpp>
 #include <power_grid_model/auxiliary/serialization/serializer.hpp>
+#include <power_grid_model/auxiliary/update.hpp>
 #include <power_grid_model/component/node.hpp>
 #include <power_grid_model/container.hpp>
 
@@ -24,6 +25,12 @@
 namespace power_grid_model_io_native {
 
 using PgmInput = pgm::Container<pgm::NodeInput>;
+using PgmUpdate = pgm::Container<pgm::BaseUpdate>;
+
+struct PgmConvertedData {
+    PgmInput input;
+    PgmUpdate update;
+};
 
 inline std::string serialize_data(pgm::ConstDataset const& const_dataset) {
     pgm::meta_data::Serializer serializer(const_dataset, pgm::SerializationFormat::json);
@@ -43,14 +50,14 @@ class PgmVnfConverter {
     void convert_input();
     std::string const& get_serialized_data() const;
     void set_file_buffer(std::string_view file_buffer);
-    void set_deserialized_dataset(PgmInput deserialized_data);
+    void set_deserialized_dataset(PgmConvertedData deserialized_data);
     std::string_view get_file_buffer() const;
-    PgmInput get_deserialized_dataset() const;
+    PgmConvertedData get_deserialized_dataset() const;
 
   private:
     // Private attributes
     std::string_view buffer_;
-    PgmInput deserialized_data_;
+    PgmConvertedData deserialized_data_;
     VnfGrid parsed_vnf_data_;
     std::string serialized_data_;
     std::vector<pgm::NodeInput> nodes_;
@@ -96,7 +103,7 @@ inline void PgmVnfConverter::convert_input() {
     convert_node_input();
 
     // construction complete has to be after we convert all the components
-    this->deserialized_data_.set_construction_complete();
+    this->deserialized_data_.input.set_construction_complete();
     constexpr auto const& meta_data = pgm::meta_data::meta_data_gen::meta_data;
     pgm::ConstDataset const const_dataset = make_const_dataset(meta_data);
     std::string const serialized_pgm_data = serialize_data(const_dataset);
@@ -105,11 +112,13 @@ inline void PgmVnfConverter::convert_input() {
 
 inline void PgmVnfConverter::set_file_buffer(std::string_view file_buffer) { this->buffer_ = file_buffer; }
 
-inline void PgmVnfConverter::set_deserialized_dataset(PgmInput data) { this->deserialized_data_ = std::move(data); }
+inline void PgmVnfConverter::set_deserialized_dataset(PgmConvertedData data) {
+    this->deserialized_data_ = std::move(data);
+}
 
 inline std::string_view PgmVnfConverter::get_file_buffer() const { return this->buffer_; }
 
-inline PgmInput PgmVnfConverter::get_deserialized_dataset() const { return this->deserialized_data_; }
+inline PgmConvertedData PgmVnfConverter::get_deserialized_dataset() const { return this->deserialized_data_; }
 
 inline std::string const& PgmVnfConverter::get_serialized_data() const { return this->serialized_data_; }
 
@@ -121,7 +130,7 @@ inline void PgmVnfConverter::convert_node_input() {
         auto vnfnode_unom = node.u_nom;
 
         // add u_nom multiplier when known
-        this->deserialized_data_.emplace<pgm::NodeInput>(node_id, node_id, vnfnode_unom);
+        this->deserialized_data_.input.emplace<pgm::NodeInput>(node_id, node_id, vnfnode_unom);
 
         this->nodes_.emplace_back(pgm::NodeInput{node_id, vnfnode_unom});
     }
