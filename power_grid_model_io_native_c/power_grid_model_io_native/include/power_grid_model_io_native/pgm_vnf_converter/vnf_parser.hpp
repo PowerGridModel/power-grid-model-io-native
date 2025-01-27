@@ -29,7 +29,7 @@ using VisionGUIDLookup = IdentifierLookup<VisionGUID>;
 
 class PgmVnfParser {
   public:
-    explicit PgmVnfParser(std::string_view vnf_data);
+    PgmVnfParser(std::string_view vnf_data);
 
     void parse_input();
     VisionGUIDLookup get_id_lookup() const;
@@ -45,7 +45,7 @@ class PgmVnfParser {
     void parse_node_input();
 };
 
-inline PgmVnfParser::PgmVnfParser(std::string_view const vnf_data) : vnf_data_(vnf_data) {}
+inline PgmVnfParser::PgmVnfParser(std::string_view vnf_data) : vnf_data_(vnf_data) {}
 
 inline void PgmVnfParser::parse_input() {
     // parse each component individually and finish constructing the container
